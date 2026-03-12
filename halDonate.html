@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donasi</title>
+    <link rel="stylesheet" href="styles/styleHalDonate.css">
+</head>
+<body>
+    
+    <header>
+        <nav> <!-- bagian atas website untuk tempat nav bar yang dapat dipencet alu kembali ke halaman utama ataupun opsi halaman yang lainnya -->
+            <a class="brand" href="halUtama.html">Teletubies Fund</a>
+            <a href="halUtama.html">Home</a>
+            <a href="halLogin.html">Login</a>
+        </nav>
+    </header>
+
+    <main> <!-- Tempat dimana pengguna dapat mengisi form donasi berisi: nama lengkap, email, nominal donasi, metode pembayaran, pesan dukungan(opsional), bukti transfer(pdf,jpg,png)-->
+        <section class="donate">
+            <h1>Formulir Donasi</h1>
+            <p class="campaign-summary">Anda akan mendonasikan untuk <strong>Judul Kampanye A</strong> oleh Budi.</p>
+            <form>
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="amount">Nominal Donasi</label>
+                <input type="number" id="amount" name="amount" min="1" required>
+
+                <label for="method">Metode Pembayaran</label>
+                <select id="method" name="method">
+                    <option value="bank">Transfer Bank</option>
+                    <option value="e-wallet">E-Wallet</option>
+                </select>
+
+                <label for="message">Pesan Dukungan (opsional)</label>
+                <textarea id="message" name="message"></textarea>
+
+                <label for="proof">Bukti Transfer (PDF/JPG/PNG)</label>
+                <input type="file" id="proof" name="proof" accept=".pdf,.jpg,.png">
+
+                <button type="submit">Kirim Donasi</button>
+            </form>
+        </section>
+    </main> 
+
+    <footer> <!--Bagian informasi tentang pembuat website mungkin atau informasi lainnya-->
+
+    </footer>
+    
+</body>
+</html>

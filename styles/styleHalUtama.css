@@ -1,0 +1,19 @@
+﻿/* common reset and base */
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+
+header, footer { background: #333; color: #fff; }
+nav { display: flex; align-items: center; padding: 0.5rem 1rem; }
+nav .brand { font-weight: bold; margin-right: 2rem; color: #fff; text-decoration: none; }
+nav a { margin-right: 1rem; color: #fff; text-decoration: none; }
+nav a.active { text-decoration: underline; }
+
+/* main page specific */
+main { padding: 1rem; }
+.search-bar form { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.search-bar input, .search-bar select, .search-bar button { padding: 0.5rem; }
+.campaigns { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.card { background: #fff; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }
+.card img { max-width: 100%; height: auto; }
+.card a { text-decoration: none; color: #333; }
+.card h2 { margin: 0.5rem 0; }

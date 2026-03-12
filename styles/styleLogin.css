@@ -1,0 +1,90 @@
+﻿/* common reset and base */
+* { 
+    box-sizing: border-box; 
+}
+
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background: gray; 
+    color: #333; 
+}
+
+header { 
+    background: #eeff00; 
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+img{
+    width: 150px;
+}
+nav{
+    text-align: right;
+}
+
+.navTel{
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgb(0, 255, 0);
+    padding: 10px;
+    border-radius: 20px;
+}
+.navTel:hover{
+    color: white;
+    background-color: rgb(0, 0, 0);
+}
+.navHome{
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgb(0, 255, 0);
+    padding: 10px;
+    border-radius: 20px;
+}
+.navHome:hover{
+    color: white;
+    background-color: rgb(0, 0, 0);
+}
+
+
+.login-container { 
+    max-width: 600px; 
+    margin: 50px auto;
+    margin-top: 200px;
+    background: #fff; 
+    padding: 50px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+
+.login-container h1 { 
+    text-align: center; 
+}
+
+.user input, .pass input {
+    display: block;
+}
+
+#user, #pass {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.login-container form button { 
+    margin-top: 10px; 
+    padding: 10px;
+    width: 100%;
+}
+
+legend {
+    font-weight: bold;
+    margin-bottom: 5px;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Crowdfunding</title>
+    <link rel="stylesheet" href="styles/styleLogin.css">
+</head>
+<body>
+    
+    <header class="header_login">
+        <img src="img/LogoTele.png">
+        <nav> <!-- bagian atas website untuk tempat nav bar yang dapat dipencet alu kembali ke halaman utama ataupun opsi halaman yang lainnya -->
+            <a class="navTel" href="halUtama.html">Teletubies Fund</a>
+            <a class="navHome"href="halUtama.html">Home</a>
+        </nav>
+    </header>
+
+    <main> <!-- Tempat form dimana user dapat login dengan username / email dengan passwordnya-->
+        <section class="login-container">
+            <h1>Login</h1>
+            <form action="#" method="post">
+                <p class="user">Username / Email
+                    <input type="text" id="user" name="user" required placeholder="Masukkan username atau email">
+                </p>
+
+                <p class="pass">Password
+                    <input type="password" id="pass" name="pass" required placeholder="Masukkan password">
+                </p>
+                
+
+                    <legend>Jenis pengguna</legend>
+                    <label><input type="radio" name="role" value="donor" checked> Donatur</label>
+                    <label><input type="radio" name="role" value="manager"> Pengelola Kampanye</label>
+                <button type="submit">Masuk</button>
+            </form>
+        </section>
+    </main> 
+
+    <footer> <!--Bagian informasi tentang pembuat website mungkin atau informasi lainnya-->
+
+    </footer>
+    
+</body>
+</html>
