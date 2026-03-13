@@ -1,71 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beranda - Crowdfunding</title>
-    <link rel="stylesheet" href="styles/styleHalUtama.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="styles/styleHalUtama.css" />
+  </head>
+  <body>
     <header>
-        <nav> <!-- bagian atas website untuk tempat search bar, nama website dan fitur lainnya ketika mau di tambah misal navigation bar -->
-            <a class="brand" href="halUtama.html">Teletubies Fund</a>
-            <a href="halUtama.html" class="active">Home</a>
-            <a href="halLogin.html">Login</a>
-        </nav>
+      <div class="logo">
+        <a href="halUtama.html">
+          <img src="img/T.png" alt="Klik gambar ini" />
+        </a>
+      </div>
+      <nav class="links">
+        <a href="halUtama.html" class="active">Home</a>
+        <a href="halLogin.html">Login</a>
+      </nav>
     </header>
 
-    <main> <!-- Tempat tampilan kampanye dengan informasi, poster kampanye, judul, nama penyelenggara, target dana, dana terkumpul, dan deadline -->
-        <section class="search-bar">
-            <form>
-                <input type="text" placeholder="Cari judul kampanye">
-                <select>
-                    <option value="">Semua kategori</option>
-                    <option value="education">Pendidikan</option>
-                    <option value="health">Kesehatan</option>
-                    <option value="environment">Lingkungan</option>
-                </select>
-                <select>
-                    <option value="">Semua lokasi</option>
-                    <option value="jakarta">Jakarta</option>
-                    <option value="surabaya">Surabaya</option>
-                </select>
-                <select>
-                    <option value="">Semua target</option>
-                    <option value="0-1000000">0 - 1.000.000</option>
-                    <option value="1000000-5000000">1.000.000 - 5.000.000</option>
-                </select>
-                <button type="submit">Filter</button>
-            </form>
-        </section>
-        <section class="campaigns">
-            <!-- contoh kampanye statis -->
-            <article class="card">
-                <a href="halDetail.html">
-                    <img src="img/sample.jpg" alt="Poster Kampanye">
-                    <h2>Judul Kampanye A</h2>
-                </a>
-                <p>Penyelenggara: Budi</p>
-                <p>Target: Rp5.000.000</p>
-                <p>Terkumpul: Rp1.200.000</p>
-                <p>Deadline: 31 Des 2026</p>
-            </article>
-            <article class="card">
-                <a href="halDetail.html">
-                    <img src="img/sample2.jpg" alt="Poster Kampanye">
-                    <h2>Judul Kampanye B</h2>
-                </a>
-                <p>Penyelenggara: Siti</p>
-                <p>Target: Rp2.000.000</p>
-                <p>Terkumpul: Rp900.000</p>
-                <p>Deadline: 15 Jan 2027</p>
-            </article>
-        </section>
+    <main>
+      <div class="intro">
+        <h1>Langkah Kecil, <span> Dampak Besar</span></h1>
+        <p class="subhead">
+          Temukan berbagai kampanye sosial dan dukung para penggalang dana untuk
+          menciptakan perubahan positif di sekitar kita.
+        </p>
+      </div>
+      <section class="search-bar">
+        <form>
+          <input type="text" placeholder="Cari judul kampanye" />
+          <div class="filters">
+            <select>
+              <option value="">Semua kategori</option>
+              <option value="education">Pendidikan</option>
+              <option value="health">Kesehatan</option>
+              <option value="environment">Lingkungan</option>
+            </select>
+            <select>
+              <option value="">Semua lokasi</option>
+              <option value="jakarta">Jakarta</option>
+              <option value="surabaya">Surabaya</option>
+            </select>
+            <select>
+              <option value="">Semua target</option>
+              <option value="0-1000000">0 - 1.000.000</option>
+              <option value="1000000-5000000">1.000.000 - 5.000.000</option>
+            </select>
+            <button type="submit">Filter</button>
+          </div>
+        </form>
+      </section>
+
+      <hr class="garis" />
+
+      <section class="campaigns">
+        <!-- contoh kampanye statis -->
+        <article class="card">
+          <a href="halDetail.html">
+            <img src="img/sample.jpg" alt="Poster Kampanye" />
+            <h2>Judul Kampanye A</h2>
+          </a>
+          <p>Penyelenggara: Budi</p>
+          <p>Target: Rp5.000.000</p>
+          <p>Terkumpul: Rp1.200.000</p>
+          <p>Deadline: 31 Des 2026</p>
+        </article>
+        <article class="card">
+          <a href="halDetail.html">
+            <img src="img/sample2.jpg" alt="Poster Kampanye" />
+            <h2>Judul Kampanye B</h2>
+          </a>
+          <p>Penyelenggara: Siti</p>
+          <p>Target: Rp2.000.000</p>
+          <p>Terkumpul: Rp900.000</p>
+          <p>Deadline: 15 Jan 2027</p>
+        </article>
+      </section>
     </main>
 
-    <footer> <!--Bagian informasi tentang pembuat website mungkin atau informasi lainnya-->
-
+    <footer>
+      <!--Bagian informasi tentang pembuat website mungkin atau informasi lainnya-->
     </footer>
-</body>
+  </body>
 </html>

@@ -1,19 +1,158 @@
 ﻿/* common reset and base */
-* { box-sizing: border-box; }
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fffdf4;
+  color: #333;
+}
+.links {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
 
-header, footer { background: #333; color: #fff; }
-nav { display: flex; align-items: center; padding: 0.5rem 1rem; }
-nav .brand { font-weight: bold; margin-right: 2rem; color: #fff; text-decoration: none; }
-nav a { margin-right: 1rem; color: #fff; text-decoration: none; }
-nav a.active { text-decoration: underline; }
+footer {
+  background: #333;
+  color: #fff;
+}
+.logo img {
+  position: absolute;
+  top: -27px;
+  left: 20px;
+  width: 120px;
+}
+
+nav .brand {
+  font-weight: bold;
+  margin-right: 2rem;
+  color: #fff;
+  text-decoration: none;
+}
+nav a {
+  margin-right: 1rem;
+  color: #25754a;
+  text-decoration: none;
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+}
+nav a.active {
+  text-decoration: none;
+  border-bottom: 2px solid #00a896;
+  padding-bottom: 5px;
+}
 
 /* main page specific */
-main { padding: 1rem; }
-.search-bar form { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.search-bar input, .search-bar select, .search-bar button { padding: 0.5rem; }
-.campaigns { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
-.card { background: #fff; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }
-.card img { max-width: 100%; height: auto; }
-.card a { text-decoration: none; color: #333; }
-.card h2 { margin: 0.5rem 0; }
+main {
+  padding: 1rem;
+}
+.intro {
+  margin-top: 2em;
+}
+
+.intro h1 {
+  text-align: center;
+  color: #25754a;
+  font-family: "Inter", sans-serif;
+}
+.intro h1 span {
+  font-size: 1.5em;
+  color: #f6d636;
+  position: relative;
+  display: inline-block;
+}
+.intro h1 span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 15px;
+  background-color: #25754a;
+  opacity: 0.4;
+  z-index: -1;
+  transform: rotate(-1.5deg);
+  border-radius: 2px;
+}
+
+.subhead {
+  text-align: center;
+  text-align: center;
+  color: #636e72;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-bar {
+    margin-top: 20px;
+}
+.search-bar form {
+  display: flex;
+  flex-direction: column; /* Bikin susunan ke bawah (Input dulu baru Filter) */
+  align-items: center;    /* Ratakan semua ke tengah */
+  gap: 15px;              /* Jarak antar baris */
+}
+.search-bar input {
+    width: 100%;
+  max-width: 500px;       /* Lebar maksimal kotak cari */
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 25px;    /* Bikin lonjong biar modern */
+  border-color: #25754a;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;        /* Biar kalau di layar kecil otomatis turun */
+  justify-content: center;/* Select & button di tengah */
+  gap: 10px;
+}
+
+.filters select, .filters button {
+  padding: 1px 1px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.filters button {
+  background-color: #25754a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px 25px;
+}
+.garis {
+  border: 0;
+  height: 1px;
+  background-color: #eee; /* Warna garis abu-abu muda */
+  margin: 40px 5%;
+}
+
+.campaigns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.card {
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  border: #00a896 2px solid;
+}
+.card img {
+  max-width: 100%;
+  height: auto;
+}
+.card a {
+  text-decoration: none;
+  color: #333;
+}
+.card h2 {
+  margin: 0.5rem 0;
+}
