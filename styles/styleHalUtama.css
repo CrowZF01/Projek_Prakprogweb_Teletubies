@@ -38,10 +38,23 @@ nav a {
   text-decoration: none;
   font-family: "Arial Rounded MT Bold", Arial, sans-serif;
 }
-nav a.active {
+nav a {
+  text-decoration: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 2px solid #00a896;
+  border-radius: 10px;
+}
+
+nav a:hover {
   text-decoration: none;
   border-bottom: 2px solid #00a896;
-  padding-bottom: 5px;
+  background-color: rgb(238, 238, 103);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
 }
 
 /* main page specific */
