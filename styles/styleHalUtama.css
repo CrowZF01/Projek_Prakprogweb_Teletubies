@@ -93,22 +93,22 @@ main {
 }
 .search-bar form {
   display: flex;
-  flex-direction: column; /* Bikin susunan ke bawah (Input dulu baru Filter) */
-  align-items: center;    /* Ratakan semua ke tengah */
-  gap: 15px;              /* Jarak antar baris */
+  flex-direction: column; 
+  align-items: center;    
+  gap: 15px;           
 }
 .search-bar input {
     width: 100%;
-  max-width: 500px;       /* Lebar maksimal kotak cari */
+  max-width: 500px;     
   padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 25px;    /* Bikin lonjong biar modern */
+  border-radius: 25px;    
   border-color: #25754a;
 }
 .filters {
   display: flex;
-  flex-wrap: wrap;        /* Biar kalau di layar kecil otomatis turun */
-  justify-content: center;/* Select & button di tengah */
+  flex-wrap: wrap;       
+  justify-content: center;
   gap: 10px;
 }
 
@@ -128,7 +128,7 @@ main {
 .garis {
   border: 0;
   height: 1px;
-  background-color: #eee; /* Warna garis abu-abu muda */
+  background-color: #eee; 
   margin: 40px 5%;
 }
 
