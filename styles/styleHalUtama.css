@@ -45,6 +45,7 @@ nav a {
   padding-right: 15px;
   border-bottom: 2px solid #00a896;
   border-radius: 10px;
+  transition: 0.3s;
 }
 
 nav a:hover {
@@ -55,6 +56,9 @@ nav a:hover {
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 10px;
+  transform: translateY(-3px); 
+  box-shadow: 0 4px 8px black; 
+  cursor: pointer;
 }
 
 /* main page specific */
@@ -137,6 +141,7 @@ main {
   border: none;
   cursor: pointer;
   padding: 10px 25px;
+  transition: 0.3s;
 }
 .garis {
   border: 0;
@@ -171,7 +176,14 @@ main {
   margin: 0.5rem 0;
 }
 
-.card:hover{
+.card:hover {
+  transform: translateY(-3px); 
+  box-shadow: 0 4px 8px black; 
+  cursor: pointer;
+}
+
+.filters button:hover{
+  background-color: #1a5938; 
   transform: translateY(-3px); 
   box-shadow: 0 4px 8px black; 
   cursor: pointer;
