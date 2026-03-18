@@ -1,4 +1,4 @@
-﻿/* common reset and base */
+﻿﻿/* common reset and base */
 * {
   box-sizing: border-box;
 }
@@ -64,8 +64,8 @@ nav a:hover {
     margin-top: 200px;
     background: #fff; 
     padding: 50px; 
-    border: 1px solid #ddd; 
-    border-radius: 4px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 20px gray; 
 }
 
 .login-container h1 { 
