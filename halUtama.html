@@ -29,25 +29,18 @@
       </div>
       <section class="search-bar">
         <form>
-          <input type="text" placeholder="Cari judul kampanye" />
-          <div class="filters">
-            <select>
-              <option value="">Semua kategori</option>
+          <div class="search-container">
+            <select class="category-select">
+              <option value="">Semua Kategori</option>
               <option value="education">Pendidikan</option>
               <option value="health">Kesehatan</option>
               <option value="environment">Lingkungan</option>
             </select>
-            <select>
-              <option value="">Semua lokasi</option>
-              <option value="jakarta">Jakarta</option>
-              <option value="surabaya">Surabaya</option>
-            </select>
-            <select>
-              <option value="">Semua target</option>
-              <option value="0-1000000">0 - 1.000.000</option>
-              <option value="1000000-5000000">1.000.000 - 5.000.000</option>
-            </select>
-            <button type="submit">Filter</button>
+
+            <div class="divider"></div>
+            <!-- Garis pemisah vertikal -->
+
+            <input type="text" placeholder="Cari judul kampanye" />
           </div>
         </form>
       </section>
@@ -55,26 +48,68 @@
       <hr class="garis" />
 
       <section class="campaigns">
-        <!-- contoh kampanye statis -->
+        <!-- Card 1 -->
         <article class="card">
-          <a href="halDetail1.html">
-            <img src="img\gambar-anak-sekolah.jpg" alt="gambar anak sekolah" />
-            <h2>Bantu Anak Sekolah di Pelosok</h2>
-          </a>
-          <p>Penyelenggara: Budi</p>
-          <p>Target: Rp5.000.000</p>
-          <p>Terkumpul: Rp1.200.000</p>
-          <p>Deadline: 31 Des 2026</p>
+          <div class="card-image">
+            <img src="img/gambar-anak-sekolah.jpg" alt="Anak Sekolah" />
+          </div>
+          <div class="card-content">
+            <div class="card-tags">Pendidikan • Sosial</div>
+            <a href="halDetail1.html">
+              <h2 class="card-title">
+                Bantu Anak Sekolah di Pelosok Indonesia
+              </h2>
+            </a>
+            <div class="card-meta">
+              <span class="author">👤 Budi Doremi</span>
+              <span class="deadline">📅 30 Hari lagi</span>
+            </div>
+            <p class="card-description">
+              Membantu anak-anak di pedalaman untuk mendapatkan akses alat tulis
+              dan seragam yang layak.
+            </p>
+            <div class="card-footer">
+              <div class="stat">
+                <span class="label">Terkumpul</span>
+                <span class="value">Rp1.200.000</span>
+              </div>
+              <div class="stat">
+                <span class="label">Target</span>
+                <span class="value text-right">Rp5.000.000</span>
+              </div>
+            </div>
+          </div>
         </article>
+
+        <!-- Card 2 -->
         <article class="card">
-          <a href="halDetail2.html">
-            <img src="img\gambar-anak-yatim.jpg" alt="gambar anak yatim" />
-            <h2>Bantu Anak Yatim Piatu</h2>
-          </a>
-          <p>Penyelenggara: Siti</p>
-          <p>Target: Rp2.000.000</p>
-          <p>Terkumpul: Rp900.000</p>
-          <p>Deadline: 15 Jan 2027</p>
+          <div class="card-image">
+            <img src="img/gambar-anak-yatim.jpg" alt="Anak Yatim" />
+          </div>
+          <div class="card-content">
+            <div class="card-tags">Kemanusiaan • Yatim</div>
+            <a href="halDetail2.html">
+              <h2 class="card-title">Santunan untuk 100 Anak Yatim Piatu</h2>
+            </a>
+            <div class="card-meta">
+              <span class="author">👤 Siti Aminah</span>
+              <span class="deadline">📅 15 Hari lagi</span>
+            </div>
+            <p class="card-description">
+              Mari berbagi kebahagiaan dengan memberikan paket sembako dan uang
+              saku untuk adik-adik kita.
+            </p>
+            <div class="card-footer">
+              <div class="stat">
+                <span class="label">Terkumpul</span>
+                <span class="value">Rp900.000</span>
+              </div>
+              <div class="stat">
+                <span class="label">Target</span>
+                <span class="value text-right">Rp2.000.000</span>
+              </div>
+            </div>
+          </div>
         </article>
       </section>
     </main>

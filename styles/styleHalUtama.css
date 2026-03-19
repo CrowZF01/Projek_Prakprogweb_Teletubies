@@ -56,8 +56,8 @@ nav a:hover {
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 10px;
-  transform: translateY(-3px); 
-  box-shadow: 0 4px 8px black; 
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px black;
   cursor: pointer;
 }
 
@@ -106,85 +106,175 @@ main {
 }
 
 .search-bar {
-    margin-top: 20px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
 }
+
 .search-bar form {
   display: flex;
-  flex-direction: column; 
-  align-items: center;    
-  gap: 15px;           
-}
-.search-bar input {
-    width: 100%;
-  max-width: 500px;     
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 25px;    
-  border-color: #25754a;
-}
-.filters {
-  display: flex;
-  flex-wrap: wrap;       
   justify-content: center;
-  gap: 10px;
+  width: 100%;
+  padding: 0 20px; /* Jarak aman di layar HP agar tidak nempel ke pinggir */
 }
 
-.filters select, .filters button {
-  padding: 1px 1px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 15px; /* Membuat bentuk kapsul */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Shadow lembut */
+  width: 100%;
+  max-width: 900px;
+  border: 1px solid #eee;
 }
 
-.filters button {
-  background-color: #25754a;
-  color: white;
+.category-select {
   border: none;
+  background: transparent;
+  padding: 10px;
+  font-size: 1rem;
+  color: #25754a;
+  font-weight: 600;
   cursor: pointer;
-  padding: 10px 25px;
-  transition: 0.3s;
+  outline: none;
+  appearance: none; /* Menghilangkan panah default browser */
+  -webkit-appearance: none;
+  padding-right: 25px;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2325754a%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
 }
+.divider {
+  width: 1px;
+  height: 35px;
+  background-color: #ddd;
+  margin: 0 15px;
+}
+
+.search-container input {
+  flex: 1; /* Agar input mengambil sisa ruang */
+  border: none;
+  padding: 15px 10px;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+}
+
 .garis {
   border: 0;
   height: 1px;
-  background-color: #eee; 
+  background-color: #eee;
   margin: 40px 5%;
 }
 
 .campaigns {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 20px 5%;
 }
+
+/* Styling Card */
 .card {
   background: #fff;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  border: #00a896 2px solid;
-  transition: 0.3s;
-}
-.card img {
-  max-width: 100%;
-  height: auto;
-}
-.card a {
-  text-decoration: none;
-  color: #333;
-}
-.card h2 {
-  margin: 0.5rem 0;
+  border-radius: 15px;
+  overflow: hidden; /* Agar gambar tidak keluar dari border-radius */
+  border: 1px solid #eee;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-3px); 
-  box-shadow: 0 4px 8px black; 
-  cursor: pointer;
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 
-.filters button:hover{
-  background-color: #1a5938; 
-  transform: translateY(-3px); 
-  box-shadow: 0 4px 8px black; 
-  cursor: pointer;
+/* Bagian Gambar */
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Agar gambar tetap proporsional */
+}
+
+/* Konten di dalam Card */
+.card-content {
+  padding: 20px;
+}
+
+/* Tag/Kategori */
+.card-tags {
+  font-size: 0.8rem;
+  color: #b37d4e; /* Warna cokelat sesuai referensi */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+/* Judul */
+.card-title {
+  font-size: 1.25rem;
+  color: #25754a; /* Warna gelap kehijauan */
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  font-family: "Georgia", serif; /* Agar mirip dengan style di gambar */
+}
+
+.card-content a {
+  text-decoration: none;
+}
+
+/* Info Penyelenggara & Deadline */
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* Deskripsi Singkat */
+.card-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  /* Membatasi teks hanya 2 baris */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer Card (Terkumpul & Target) */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat .label {
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.stat .value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #25754a;
+}
+
+.text-right {
+  text-align: right;
 }
