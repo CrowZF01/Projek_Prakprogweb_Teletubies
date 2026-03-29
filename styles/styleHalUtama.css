@@ -2,6 +2,17 @@
 * {
   box-sizing: border-box;
 }
+
+header {
+  display: flex;
+  /* background-color: gray; */
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0px; 
+  width: 100%;
+  
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,21 +20,24 @@ body {
   background: #fffdf4;
   color: #333;
 }
+
 .links {
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 10px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin: 0 auto;
 }
 
 footer {
   background: #333;
   color: #fff;
 }
+
 .logo img {
-  position: absolute;
-  top: -27px;
-  left: 20px;
   width: 120px;
+  display: block;
+  height: 60px;
+  object-fit: cover;
 }
 
 nav .brand {
@@ -277,4 +291,12 @@ main {
 
 .text-right {
   text-align: right;
+}
+
+
+footer{
+    background-color: #25754a;
+    text-align: center;
+    color: white;
+    padding: 20px;
 }
