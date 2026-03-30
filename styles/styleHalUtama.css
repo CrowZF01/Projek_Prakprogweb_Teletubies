@@ -6,11 +6,12 @@
 header {
   display: flex;
   /* background-color: gray; */
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 0px; 
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0px;
   width: 100%;
-  
+  background-color: white;
 }
 
 body {
@@ -293,10 +294,9 @@ main {
   text-align: right;
 }
 
-
-footer{
-    background-color: #25754a;
-    text-align: center;
-    color: white;
-    padding: 20px;
+footer {
+  background-color: #25754a;
+  text-align: center;
+  color: white;
+  padding: 20px;
 }
