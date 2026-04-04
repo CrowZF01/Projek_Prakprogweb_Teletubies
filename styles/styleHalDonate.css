@@ -1,21 +1,28 @@
 ﻿/* Pastikan body tidak meluap */
 /* common reset and base */
+* {
+  box-sizing: border-box;
+}
+
 header {
   display: flex;
-  /* background-color: gray; */
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 0px; 
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
   width: 100%;
-  
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  position: relative;
 }
+
 main{
-    background-color: #fffdf4;
-    margin: 0;
-    padding: 0;
-    height: 100vh; 
-    font-family: sans-serif;
+  background-color: #fffdf4;
+  margin: 0;
+  padding: 0;
+  height: 100vh; 
+  font-family: sans-serif;
 }
+
 
 body {
   font-family: Arial, sans-serif;
@@ -23,6 +30,9 @@ body {
   padding: 0;
   background: #fffdf4;
   color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 
@@ -31,6 +41,50 @@ body {
   display: block;
   height: 60px;
   object-fit: cover;
+}
+
+.links {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+nav .brand {
+  font-weight: bold;
+  margin-right: 2rem;
+  color: #fff;
+  text-decoration: none;
+}
+nav a {
+  margin-right: 1rem;
+  color: #25754a;
+  text-decoration: none;
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+}
+nav a {
+  text-decoration: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 2px solid #00a896;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  text-decoration: none;
+  border-bottom: 2px solid #00a896;
+  background-color: rgb(238, 238, 103);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px black;
+  cursor: pointer;
 }
 
 .donate{

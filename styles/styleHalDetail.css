@@ -22,21 +22,66 @@ header {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
 .logo img {
-  width: 80px;
+  width: 120px;
   display: block;
-  height: 70px;
-  object-fit: contain;
-  transform: scale(
-    2
-  ); /* 1.5 berarti 1,5 kali lipat lebih besar. Silakan ubah jadi 1.8 atau 2 kalau kurang besar */
-  transform-origin: left center;
+  height: 60px;
+  object-fit: cover;
 }
 
-main {
-  flex: 1;
+.links {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+nav .brand {
+  font-weight: bold;
+  margin-right: 2rem;
+  color: #fff;
+  text-decoration: none;
+}
+nav a {
+  margin-right: 1rem;
+  color: #25754a;
+  text-decoration: none;
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+}
+nav a {
+  text-decoration: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 2px solid #00a896;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  text-decoration: none;
+  border-bottom: 2px solid #00a896;
+  background-color: rgb(238, 238, 103);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px black;
+  cursor: pointer;
+}
+
+main{
+    background-color: #fffdf4;
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    font-family: sans-serif;
 }
 
 .detail {
@@ -47,11 +92,19 @@ main {
 }
 
 .back {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #555;
-  text-decoration: none;
-  font-size: 14px;
+    display: block;
+    width: fit-content;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #25754a;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s ;
+    top: 13px;
+    left: 150px;
 }
 
 .back:hover {
