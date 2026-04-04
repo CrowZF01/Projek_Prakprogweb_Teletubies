@@ -30,9 +30,12 @@ body {
   display: flex;
   gap: 15px;
   align-items: center;
-  left: 50%;
-  transform: translateX(-50%);
-  position: absolute;
+  position: relative;
+  right: 43%;
+
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  /* position: absolute; */
 }
 
 footer {
