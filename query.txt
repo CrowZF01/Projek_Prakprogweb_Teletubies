@@ -1,0 +1,10 @@
+CREATE TABLE user (
+    id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+    role VARCHAR(255) NOT NULL);
+
+
+INSERT INTO `user`(`id`, `username`, `email`, `password`, 'role') VALUES ('','idk','idk123@gmail.com','gatau123','Donatur');
+

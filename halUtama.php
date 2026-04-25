@@ -1,3 +1,11 @@
+<?php 
+if (!isset($_SESSION["id"])) {
+    header("location:halLogin.php");
+    exit();
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,13 +17,14 @@
   <body>
     <header>
       <div class="logo">
-        <a href="halUtama.html">
+        <a href="halUtama.php">
           <img src="img/T.png" alt="Klik gambar ini" />
         </a>
       </div>
       <nav class="links">
-        <a href="halUtama.html" class="active">Home</a>
-        <a href="halLogin.html">Login</a>
+        <a href="halUtama.php" class="active">Home</a>
+        <a href="halLogin.php">Login</a>
+        <a href="logout.php">Logout</a>
       </nav>
     </header>
 
