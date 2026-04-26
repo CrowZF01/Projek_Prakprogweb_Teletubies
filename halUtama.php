@@ -76,7 +76,7 @@ if (isset($_SESSION["nama_user"])) {
           </div>
           <div class="card-content">
             <div class="card-tags">Pendidikan • Sosial</div>
-            <a href="halDetail1.html">
+            <a href="halDetail.php">
               <h2 class="card-title">
                 Bantu Anak Sekolah di Pelosok Indonesia
               </h2>

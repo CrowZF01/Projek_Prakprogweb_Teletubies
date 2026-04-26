@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["id"])) {
+    header("location:halLogin.php");
+    exit();
+}
+
+if (isset($_SESSION["nama_user"])) {
+    $nama = $_SESSION["nama_user"];
+} else {
+    $nama = "user";
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,10 +28,16 @@
           <img src="img/T.png" alt="Klik gambar ini" />
         </a>
       </div>
+      <?php
+      echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
+      ?>
       <nav class="links">
           <a href="halUtama.php" class="active">Home</a>
-          <!-- <a href="halLogin.php">Login</a> -->
-          <a href="logout.php">Logout</a>
+          <?php if(isset($_SESSION["role"]) && $_SESSION["role"] == "guest"):?>
+            <a href="halLogin.php">Login</a>
+          <?php else:?>
+            <a href="logout.php">Logout</a>
+          <?php endif;?>
       </nav>
     </header>
 
@@ -62,7 +83,7 @@
               <p><strong>Deadline:</strong><br />15 Jan 2027</p>
             </div>
 
-            <a href="halDonate1.html" class="btn">Donasi Sekarang</a>
+            <a href="halDonate.php" class="btn">Donasi Sekarang</a>
 
             <p style="font-size: 12px; color: #888; margin-top: 15px">
               Proyek ini hanya akan didanai jika mencapai target atau telah

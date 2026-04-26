@@ -46,7 +46,7 @@ body {
   gap: 15px;
   align-items: center;
   position: relative;
-  right: 43%;
+  right: 0%;
 
   /* left: 50%; */
   /* transform: translateX(-50%); */
@@ -176,4 +176,12 @@ footer{
 
 footer h2{
     color: white;
+}
+
+.datang{
+  color: #25754a;
+  font-weight: bold;
+  font-size: 20px;
+  position: relative;
+  left: 2%;
 }

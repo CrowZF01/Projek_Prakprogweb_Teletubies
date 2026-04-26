@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["id"])) {
+    header("location:halLogin.php");
+    exit();
+}
+
+if (isset($_SESSION["nama_user"])) {
+    $nama = $_SESSION["nama_user"];
+} else {
+    $nama = "user";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,14 +29,21 @@
                 <img src="img/T.png" alt="Klik gambar ini" />
             </a>
         </div>
+        <?php
+      echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
+      ?>
         <nav class="links">
             <a href="halUtama.php" class="active">Home</a>
-            <a href="halLogin.php">Login</a>
+            <?php if(isset($_SESSION["role"]) && $_SESSION["role"] == "guest"):?>
+                <a href="halLogin.php">Login</a>
+            <?php else:?>
+                <a href="logout.php">Logout</a>
+            <?php endif;?>
         </nav>
     </header>
 
     <main> 
-        <a href="halDetail1.html" class="back">&larr; Kembali ke Detail</a>
+        <a href="halDetail.php" class="back">&larr; Kembali ke Detail</a>
         <section class="donate">
             <h1>Formulir Donasi</h1>
             <p class="campaign-summary">Anda akan mendonasikan untuk <strong>Bantu Anak Sekolah di Pelosok Indonesia</strong> oleh Budi Doremi.</p>
