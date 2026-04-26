@@ -2,9 +2,33 @@ CREATE TABLE user (
     id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL);
 
 
 INSERT INTO `user`(`id`, `username`, `email`, `password`, 'role') VALUES ('','idk','idk123@gmail.com','gatau123','Donatur');
 
+
+
+
+
+MYSQL workbrench (Task Manager ---> Service ---> mysql80)
+
+
+-- 1. Buat Databasenya dulu
+CREATE DATABASE IF NOT EXISTS crowdfunding;
+USE crowdfunding;
+
+-- 2. Buat Tabel User
+CREATE TABLE user (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+-- 3. Isi data buat ngetes login
+INSERT INTO user (username, email, password, role) 
+VALUES ('idk', 'idk123@gmail.com', 'gatau123', 'donor');

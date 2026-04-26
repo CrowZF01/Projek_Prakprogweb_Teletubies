@@ -115,3 +115,25 @@ legend {
     margin-top: 10px;
     font-weight: bold;
 }
+
+/* .guest{
+  text-align: right;
+  margin-top: 15px;
+  display: block;
+} */
+
+.guest{
+  text-align: right;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: inherit;
+  display: inline;
+}
+
+.guest-btn{
+  text-decoration: underline;
+  color: blue;
+}
+

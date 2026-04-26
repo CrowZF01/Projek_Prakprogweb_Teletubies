@@ -1,7 +1,7 @@
 <?php
-$host = "127.0.0.1";
+$host = "localhost:3310";
 $user = "root";
-$password = "";
+$password = "admin123";
 $database = "crowdfunding";
 
 $koneksi = mysqli_connect($host, $user, $password, $database);

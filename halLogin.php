@@ -2,10 +2,17 @@
 session_start();
 require "koneksi/koneksi.php"; 
 
+if(isset($_SESSION["id"]) && $_SESSION["role"] != "guest"){
+  header("location:halUtama.php");
+  exit();
+}
 
-if(isset($_SESSION["id"])){
-    header("location:halUtama.php");
-    exit();
+if(isset($_POST["guest"])){
+  $_SESSION["role"] = "guest";
+  $_SESSION["id"] = "0";
+  $_SESSION["nama_user"] = "Guest";
+  header("location:halUtama.php");
+  exit();
 }
 
 if(isset($_POST["user"]) && isset($_POST["pass"])){
@@ -18,6 +25,7 @@ if(isset($_POST["user"]) && isset($_POST["pass"])){
     $data = mysqli_fetch_assoc($query);
     $_SESSION["id"] = $data["id"];
     $_SESSION["role"] = $data["role"];
+    $_SESSION["nama_user"] = $data["username"];
 
     header("location:halUtama.php");
     exit();
@@ -60,8 +68,9 @@ if(isset($_POST["user"]) && isset($_POST["pass"])){
                     <label><input type="radio" name="role" value="donor" checked> Donatur</label>
                     <label><input type="radio" name="role" value="manager"> Pengelola Kampanye</label>
                 
-                <button type="submit">Masuk</button>
-
+                <button type="submit" name="login">Masuk</button>
+                <button type="submit" name="guest" formnovalidate class="guest">hanya mau lihat-lihat? <span class="guest-btn">Guest</span></button>
+                
                 <?php if(isset($error)) { 
                   echo "<p class='eror'>$error</p>";
                   } 
