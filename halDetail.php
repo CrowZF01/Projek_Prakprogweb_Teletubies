@@ -2,103 +2,106 @@
 session_start();
 
 if (!isset($_SESSION["id"])) {
-    header("location:halLogin.php");
-    exit();
+  header("location:halLogin.php");
+  exit();
 }
 
 if (isset($_SESSION["nama_user"])) {
-    $nama = $_SESSION["nama_user"];
+  $nama = $_SESSION["nama_user"];
 } else {
-    $nama = "user";
+  $nama = "user";
 }
 ?>
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detail Kampanye</title>
-    <link rel="stylesheet" href="styles/styleHalDetail.css" />
-  </head>
-  <body>
-    <header>
-      <div class="logo">
-        <a href="halUtama.php">
-          <img src="img/T.png" alt="Klik gambar ini" />
-        </a>
-      </div>
-      <?php
-      echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
-      ?>
-      <nav class="links">
-          <a href="halUtama.php" class="active">Home</a>
-          <?php if(isset($_SESSION["role"]) && $_SESSION["role"] == "guest"):?>
-            <a href="halLogin.php">Login</a>
-          <?php else:?>
-            <a href="logout.php">Logout</a>
-          <?php endif;?>
-      </nav>
-    </header>
 
-    <main>
-      <section class="detail">
-        <a href="halUtama.php" class="back">&larr; Kembali ke Beranda</a>
-        <div class="campaign-title">
-          <h1>
-            <span class="pertama">Bantu Anak Sekolah</span>
-            <span class="kedua">di Pelosok Indonesia</span>
-          </h1>
-          <p class="subtitle">
-            "Sebuah langkah kepedulian dari Budi Doremi untuk mewujudkan
-            pendidikan yang merata demi masa depan cerah siswa-siswi di pelosok
-            Nusantara."
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Kampanye</title>
+  <link rel="stylesheet" href="styles/styleHalDetail.css" />
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <a href="halUtama.php">
+        <img src="img/T.png" alt="Klik gambar ini" />
+      </a>
+    </div>
+    <?php
+    echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
+    ?>
+    <nav class="links">
+      <a href="halUtama.php" class="active">Home</a>
+      <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "guest"): ?>
+        <a href="halLogin.php">Login</a>
+      <?php else: ?>
+        <a href="logout.php">Logout</a>
+      <?php endif; ?>
+    </nav>
+  </header>
+
+  <main>
+    <section class="detail">
+      <a href="halUtama.php" class="back">&larr; Kembali ke Beranda</a>
+      <div class="campaign-title">
+        <h1>
+          <span class="pertama">Bantu Anak Sekolah</span>
+          <span class="kedua">di Pelosok Indonesia</span>
+        </h1>
+        <p class="subtitle">
+          "Sebuah langkah kepedulian dari Budi Doremi untuk mewujudkan
+          pendidikan yang merata demi masa depan cerah siswa-siswi di pelosok
+          Nusantara."
+        </p>
+      </div>
+      <div class="detail-content">
+        <div class="poster">
+          <img src="img/gambar-anak-sekolah.jpg" alt="gambar anak sekolah" />
+          <div class="tags">
+            <span class="tag">🔖 Bantuan Sosial</span>
+            <span class="tag">📍 Yogyakarta, Indonesia</span>
+          </div>
+
+          <p style="margin-top: 20px; line-height: 1.6; color: #555">
+            Deskripsi singkat kampanye ditempatkan di sini untuk memberi
+            gambaran kepada calon donatur tentang tujuan dan manfaat dari
+            proyek. Bantuan akan disalurkan dalam bentuk uang tunai dan paket
+            alat tulis.
           </p>
         </div>
-        <div class="detail-content">
-          <div class="poster">
-            <img src="img/gambar-anak-sekolah.jpg" alt="gambar anak sekolah" />
-            <div class="tags">
-              <span class="tag">🔖 Bantuan Sosial</span>
-              <span class="tag">📍 Yogyakarta, Indonesia</span>
-            </div>
-
-            <p style="margin-top: 20px; line-height: 1.6; color: #555">
-              Deskripsi singkat kampanye ditempatkan di sini untuk memberi
-              gambaran kepada calon donatur tentang tujuan dan manfaat dari
-              proyek. Bantuan akan disalurkan dalam bentuk uang tunai dan paket
-              alat tulis.
-            </p>
+        <div class="info">
+          <div class="progress-container">
+            <div class="progress-bar-fill" style="width: 45%"></div>
           </div>
-          <div class="info">
-            <div class="progress-container">
-              <div class="progress-bar-fill" style="width: 45%"></div>
-            </div>
 
-            <h2 class="dana-terkumpul">Rp1.200.000</h2>
-            <p class="dana-target">terkumpul dari target Rp5.000.000</p>
+          <h2 class="dana-terkumpul">Rp1.200.000</h2>
+          <p class="dana-target">terkumpul dari target Rp5.000.000</p>
 
-            <div class="stats-box">
-              <p><strong>Penyelenggara:</strong><br />Siti Aminah</p>
-              <p><strong>Deadline:</strong><br />15 Jan 2027</p>
-            </div>
-
-            <a href="halDonate.php" class="btn">Donasi Sekarang</a>
-
-            <p style="font-size: 12px; color: #888; margin-top: 15px">
-              Proyek ini hanya akan didanai jika mencapai target atau telah
-              melewati batas waktu yang ditentukan.
-            </p>
+          <div class="stats-box">
+            <p><strong>Penyelenggara:</strong><br />Siti Aminah</p>
+            <p><strong>Deadline:</strong><br />15 Jan 2027</p>
           </div>
+
+          <a href="halDonate.php" class="btn">Donasi Sekarang</a>
+
+          <p style="font-size: 12px; color: #888; margin-top: 15px">
+            Proyek ini hanya akan didanai jika mencapai target atau telah
+            melewati batas waktu yang ditentukan.
+          </p>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-      <h2>
-        Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat
-        berarti bagi mereka :)
-      </h2>
-    </footer>
-  </body>
+  <footer>
+    <h2>
+      Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat
+      berarti bagi mereka :)
+    </h2>
+  </footer>
+</body>
+
 </html>

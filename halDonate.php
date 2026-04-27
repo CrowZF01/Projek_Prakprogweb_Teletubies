@@ -15,34 +15,36 @@ if (isset($_SESSION["nama_user"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donasi</title>
     <link rel="stylesheet" href="styles/styleHalDonate.css">
 </head>
+
 <body>
-    
+
     <header>
-        <div class="logo"> 
+        <div class="logo">
             <a href="halUtama.php">
                 <img src="img/T.png" alt="Klik gambar ini" />
             </a>
         </div>
         <?php
-      echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
-      ?>
+        echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
+        ?>
         <nav class="links">
             <a href="halUtama.php" class="active">Home</a>
-            <?php if(isset($_SESSION["role"]) && $_SESSION["role"] == "guest"):?>
+            <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "guest"): ?>
                 <a href="halLogin.php">Login</a>
-            <?php else:?>
+            <?php else: ?>
                 <a href="logout.php">Logout</a>
-            <?php endif;?>
+            <?php endif; ?>
         </nav>
     </header>
 
-    <main> 
+    <main>
         <a href="halDetail.php" class="back">&larr; Kembali ke Detail</a>
         <section class="donate">
             <h1>Formulir Donasi</h1>
@@ -78,11 +80,12 @@ if (isset($_SESSION["nama_user"])) {
                 <button class="btn" type="submit">Kirim Donasi</button>
             </form>
         </section>
-    </main> 
+    </main>
 
     <footer>
         <h2>Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat berarti bagi mereka :) </h2>
     </footer>
-    
+
 </body>
+
 </html>
