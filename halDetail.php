@@ -1,5 +1,18 @@
 <?php
 session_start();
+require "koneksi/koneksi.php";
+$id = (int) $_GET['id'];
+$query = mysqli_query(
+  $koneksi,
+  "SELECT * FROM detail_campaign WHERE campaign_id = $id"
+);
+
+if (mysqli_num_rows($query) == 0) {
+  echo "Detail kampanye tidak ditemukan";
+  exit();
+}
+
+$data = mysqli_fetch_assoc($query);
 
 if (!isset($_SESSION["id"])) {
   header("location:halLogin.php");
@@ -11,6 +24,15 @@ if (isset($_SESSION["nama_user"])) {
 } else {
   $nama = "user";
 }
+
+$progress = 0;
+if ($data['target_dana'] > 0) {
+  $progress = ($data['dana_terkumpul'] / $data['target_dana']) * 100;
+}
+if ($progress > 100) {
+  $progress = 100;
+}
+
 ?>
 
 <!doctype html>
@@ -48,45 +70,45 @@ if (isset($_SESSION["nama_user"])) {
       <a href="halUtama.php" class="back">&larr; Kembali ke Beranda</a>
       <div class="campaign-title">
         <h1>
-          <span class="pertama">Bantu Anak Sekolah</span>
-          <span class="kedua">di Pelosok Indonesia</span>
+          <span class="pertama"><?php echo $data['judul_detail']; ?></span>
         </h1>
         <p class="subtitle">
-          "Sebuah langkah kepedulian dari Budi Doremi untuk mewujudkan
-          pendidikan yang merata demi masa depan cerah siswa-siswi di pelosok
-          Nusantara."
+          <?php echo $data['sub_judul']; ?>
         </p>
       </div>
       <div class="detail-content">
         <div class="poster">
-          <img src="img/gambar-anak-sekolah.jpg" alt="gambar anak sekolah" />
+          <img src="img/<?php echo $data['gambar_detail']; ?>" alt="detail kampanye" />
           <div class="tags">
-            <span class="tag">🔖 Bantuan Sosial</span>
-            <span class="tag">📍 Yogyakarta, Indonesia</span>
+            <span class="tag">🔖 <?php echo $data['kategori']; ?></span>
+            <span class="tag">📍 <?php echo $data['lokasi']; ?></span>
           </div>
 
           <p style="margin-top: 20px; line-height: 1.6; color: #555">
-            Deskripsi singkat kampanye ditempatkan di sini untuk memberi
-            gambaran kepada calon donatur tentang tujuan dan manfaat dari
-            proyek. Bantuan akan disalurkan dalam bentuk uang tunai dan paket
-            alat tulis.
+            <?php echo nl2br($data['deskripsi_lengkap']); ?>
           </p>
         </div>
         <div class="info">
           <div class="progress-container">
-            <div class="progress-bar-fill" style="width: 45%"></div>
+            <div class="progress-bar-fill" style="width: <?php echo $progress; ?>%"></div>
           </div>
 
-          <h2 class="dana-terkumpul">Rp1.200.000</h2>
-          <p class="dana-target">terkumpul dari target Rp5.000.000</p>
+          <h2 class="dana-terkumpul">
+            Rp<?php echo number_format($data['dana_terkumpul']); ?>
+          </h2>
+
+          <p class="dana-target">
+            terkumpul dari target Rp<?php echo number_format($data['target_dana']); ?>
+          </p>
 
           <div class="stats-box">
-            <p><strong>Penyelenggara:</strong><br />Siti Aminah</p>
-            <p><strong>Deadline:</strong><br />15 Jan 2027</p>
+            <p><strong>Penyelenggara:</strong><br /><?php echo $data['penyelenggara']; ?></p>
+            <p><strong>Deadline:</strong><br /><?php echo date("d M Y", strtotime($data['deadline'])); ?></p>
           </div>
 
-          <a href="halDonate.php" class="btn">Donasi Sekarang</a>
-
+          <a href="halDonate.php?id=<?php echo $id; ?>" class="btn">
+            Donasi Sekarang
+          </a>
           <p style="font-size: 12px; color: #888; margin-top: 15px">
             Proyek ini hanya akan didanai jika mencapai target atau telah
             melewati batas waktu yang ditentukan.
@@ -99,7 +121,7 @@ if (isset($_SESSION["nama_user"])) {
   <footer>
     <h2>
       Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat
-      berarti bagi mereka :)
+      berarti bagi mereka :
     </h2>
   </footer>
 </body>
