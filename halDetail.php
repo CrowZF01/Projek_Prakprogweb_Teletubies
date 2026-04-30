@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "koneksi/koneksi.php";
+
 $id = (int) $_GET['id'];
 $query = mysqli_query(
   $koneksi,
@@ -14,10 +15,10 @@ if (mysqli_num_rows($query) == 0) {
 
 $data = mysqli_fetch_assoc($query);
 
-if (!isset($_SESSION["id"])) {
-  header("location:halLogin.php");
-  exit();
-}
+// if (!isset($_SESSION["id"])) {
+//   header("location:halLogin.php");
+//   exit();
+// }
 
 if (isset($_SESSION["nama_user"])) {
   $nama = $_SESSION["nama_user"];
@@ -105,10 +106,14 @@ if ($progress > 100) {
             <p><strong>Penyelenggara:</strong><br /><?php echo $data['penyelenggara']; ?></p>
             <p><strong>Deadline:</strong><br /><?php echo date("d M Y", strtotime($data['deadline'])); ?></p>
           </div>
-
+          <?php  
+          if(isset($_SESSION["id"]) && $_SESSION["role"] != "guest"):?>
           <a href="halDonate.php?id=<?php echo $id; ?>" class="btn">
             Donasi Sekarang
           </a>
+          <?php else: ?>
+            <a href="halLogin.php" class="btn" onclick="return confirm('Silahkan login terlebih dahulu untuk memberikan donasi')">Donasi Sekarang</a>
+            <?php endif; ?>
           <p style="font-size: 12px; color: #888; margin-top: 15px">
             Proyek ini hanya akan didanai jika mencapai target atau telah
             melewati batas waktu yang ditentukan.

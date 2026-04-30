@@ -9,6 +9,21 @@ CREATE TABLE user (
 INSERT INTO `user`(`id`, `username`, `email`, `password`, 'role') VALUES ('','idk','idk123@gmail.com','gatau123','Donatur');
 
 
+CREATE TABLE donasi (
+    id_donasi INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,                  
+    campaign_id INT NOT NULL,              
+    nominal_donasi DECIMAL(15, 2) NOT NULL, 
+    metode_pembayaran VARCHAR(50) NOT NULL,
+    pesan_dukungan TEXT,                   
+    bukti_transfer VARCHAR(255) NOT NULL,  
+    status ENUM('PENDING', 'BERHASIL', 'DITOLAK') DEFAULT 'PENDING',
+    tgl_donasi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (campaign_id) REFERENCES campaign(id) ON DELETE CASCADE
+);
+
+
 
 
 

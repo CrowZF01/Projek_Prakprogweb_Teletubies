@@ -1,5 +1,24 @@
 <?php
 session_start();
+require "koneksi/koneksi.php";
+
+if(!isset($_GET['id']) || empty($_GET['id'])){
+  header("location:halUtama.php");
+  exit();
+}
+
+$id = (int) $_GET['id'];
+$query = mysqli_query(
+  $koneksi,
+  "SELECT * FROM detail_campaign WHERE campaign_id = $id"
+);
+
+if (mysqli_num_rows($query) == 0) {
+  echo "Detail kampanye tidak ditemukan";
+  exit();
+}
+
+$data = mysqli_fetch_assoc($query);
 
 if (!isset($_SESSION["id"])) {
     header("location:halLogin.php");
@@ -11,6 +30,34 @@ if (isset($_SESSION["nama_user"])) {
 } else {
     $nama = "user";
 }
+
+$user_id = $_SESSION['id'];
+$query_user = mysqli_query($koneksi, "SELECT nama_lengkap, email FROM user WHERE id = $user_id");
+$user_data = mysqli_fetch_assoc($query_user);
+$query_camp = mysqli_query($koneksi, "SELECT * FROM campaign WHERE id = $id");
+$camp_data = mysqli_fetch_assoc($query_camp);
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $nominal = $_POST['amount'];
+    $metode = $_POST['method'];
+    $pesan = $_POST['message'];
+    
+    $nama_file = $_FILES['proof']['name'];
+    $temp_file = $_FILES['proof']['tmp_name'];
+    $folder_upload = "bukti_transfer/";
+
+    if(move_uploaded_file($temp_file, $folder_upload . $nama_file)){
+        $masukkan = mysqli_query($koneksi, "INSERT INTO donasi (user_id, campaign_id, nominal_donasi, metode_pembayaran, pesan_dukungan, bukti_transfer, status) VALUES ('$user_id', '$id', '$nominal', '$metode', '$pesan', '$nama_file', 'PENDING')");
+        if($masukkan){
+            echo "<script>alert('Donasi berhasil, menunggu verifikasi admin'); window.location='halUtama.php';</script>";
+        } else {
+            echo "gagal menyimpan data";
+        }
+    } else{
+        echo "gagal mengunggah gambar";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -45,21 +92,21 @@ if (isset($_SESSION["nama_user"])) {
     </header>
 
     <main>
-        <a href="halDetail.php" class="back">&larr; Kembali ke Detail</a>
+        <a href="halDetail.php?id=<?php echo $id; ?>" class="back">&larr; Kembali ke Detail</a>
         <section class="donate">
             <h1>Formulir Donasi</h1>
-            <p class="campaign-summary">Anda akan mendonasikan untuk <strong>Bantu Anak Sekolah di Pelosok Indonesia</strong> oleh Budi Doremi.</p>
-            <form>
+            <p class="campaign-summary">Anda akan mendonasikan untuk <strong><?php echo $data['judul_detail'] ?></strong> oleh <?php echo $data['penyelenggara'] ?></p>
+            <form action="" method="POST" enctype="multipart/form-data">
                 <label for="nama">Nama Lengkap</label>
-                <input type="text" id="nama" name="nama" required>
+                <input type="text" id="nama" name="nama" value="<?php echo $user_data['nama_lengkap']; ?>" required>
                 <br>
 
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?php echo $user_data['email']; ?>" required>
                 <br>
 
-                <label for="amount">Nominal Donasi</label>
-                <input type="number" id="amount" name="amount" min="1" required>
+                <label for="amount">Nominal Donasi (Min Rp 10.000)</label>
+                <input type="number" id="amount" name="amount" min="10000" step="10000" required>
                 <br>
 
                 <label for="method">Metode Pembayaran</label>
