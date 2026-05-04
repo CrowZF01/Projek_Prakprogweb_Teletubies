@@ -1,196 +1,240 @@
-﻿﻿* {
+﻿﻿/* RESET & VARIABLES */
+:root {
+  --hijau: #25754a;
+  --kuning: #fbd24b;
+  --hitam: #1a1a1a;
+  --putih: #ffffff;
+  --krem: #f9f9f1;
+}
+
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  background: #f8fafb;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: var(--krem);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-header {
+/* Background dots pattern */
+.dot-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--hitam) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.08;
+  z-index: -1;
+}
+
+/* HEADER STYLE */
+.top-nav {
+  background-color: var(--hijau);
   height: 90px;
-  background-color: white;
   display: flex;
-  align-items: center; 
+  align-items: center;
   padding: 0 5%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-bottom: 4px solid var(--hitam);
 }
 
-.main-logo {
-  height: 150px;
+.logo-btn {
+  background-color: var(--kuning);
+  border: 3px solid var(--hitam);
+  border-radius: 12px;
+  padding: 8px 24px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 4px 4px 0px var(--hitam);
+  transition: 0.1s;
+}
+
+.logo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--hitam);
+}
+
+.logo-img {
+  height: 35px;
   width: auto;
 }
 
-main {
+/* MAIN CONTENT STYLE */
+.content-area {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
-.login-card { 
-    width: 100%;
-    max-width: 420px; 
-    background: #fff; 
-    padding: 40px; 
-    border-radius: 20px; 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--putih);
+  padding: 40px;
+  border: 4px solid var(--hitam);
+  border-radius: 28px;
+  box-shadow: 12px 12px 0px var(--hitam);
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 30px;
+.login-intro {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.login-header h1 {
-    font-size: 26px;
-    color: #25754a;
-    font-weight: 700;
+.login-intro h1 {
+  font-weight: 800;
+  font-size: 30px;
+  color: var(--hitam);
 }
 
-/* --- SOLUSI SIMETRIS --- */
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; /* Memastikan semua anak form (input & button) lebarnya sama rata */
+.login-intro p {
+  font-weight: 600;
+  color: #666;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+/* FORM ELEMENTS */
+.input-block {
+  margin-bottom: 20px;
 }
 
-.input-group label {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #555;
-    text-transform: uppercase;
+.input-block label {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
-/* Hilangkan width 100% manual, biarkan flexbox yang mengaturnya */
-.input-group input, 
-.btn-login {
-    display: block;
-    padding: 14px 16px;
-    font-size: 15px;
-    border-radius: 12px;
-    outline: none;
-    font-family: inherit;
-    border: 2px solid #edf2f7; /* Samakan ketebalan border */
+.input-block input {
+  width: 100%;
+  padding: 16px;
+  border: 3px solid var(--hitam);
+  border-radius: 14px;
+  font-family: inherit;
+  font-weight: 700;
+  outline: none;
+  background: #fff;
 }
 
-.input-group input {
-    background-color: #fcfcfc;
-    transition: border-color 0.3s;
+.input-block input:focus {
+  box-shadow: 4px 4px 0px var(--hijau);
 }
 
-.input-group input:focus {
-    border-color: #25754a;
-    background-color: #fff;
+/* ROLE PICKER (PILLS) */
+.label-title {
+  display: block;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 12px;
 }
 
-.btn-login {
-    background-color: #25754a;
-    color: white;
-    border-color: #25754a; /* Samakan tebal border dengan input */
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+.radio-flex {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
-.btn-login:hover {
-    background-color: #1c5a39;
-    border-color: #1c5a39;
+.radio-option {
+  flex: 1;
 }
 
-/* Radio Button Group */
-.role-selection {
-    margin-bottom: 25px;
+.radio-option input {
+  display: none; /* Sembunyikan radio asli */
 }
 
-.label-text {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: #555;
-    text-transform: uppercase;
+.radio-label {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border: 3px solid var(--hitam);
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+  background: white;
+  transition: 0.2s;
+  font-size: 14px;
 }
 
-.radio-group {
-    display: flex;
-    gap: 12px;
+.radio-option input:checked + .radio-label {
+  background-color: var(--hijau);
+  color: white;
+  box-shadow: 4px 4px 0px var(--hitam);
+  transform: translateY(-2px);
 }
 
-.radio-container {
-    flex: 1;
+/* BUTTONS */
+.submit-btn {
+  width: 100%;
+  background-color: var(--hijau);
+  color: white;
+  padding: 18px;
+  border: 3px solid var(--hitam);
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 6px 6px 0px var(--hitam);
+  font-family: inherit;
 }
 
-.radio-container input {
-    display: none;
+.submit-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0px var(--hitam);
 }
 
-.custom-radio {
-    display: block;
-    text-align: center;
-    padding: 12px;
-    border: 2px solid #edf2f7;
-    border-radius: 12px;
-    font-size: 14px;
-    color: #777;
-    cursor: pointer;
-    background: #fff;
+.card-divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+  border-top: 2px solid #eee;
 }
 
-.radio-container input:checked + .custom-radio {
-    background-color: #25754a;
-    color: white;
-    border-color: #25754a;
+.card-divider span {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0 15px;
+  font-weight: 800;
+  color: #ccc;
+  text-transform: uppercase;
 }
 
-/* Footer & Guest */
-.guest-wrapper {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    text-align: center;
+.guest-btn {
+  width: 100%;
+  background-color: var(--kuning);
+  border: 3px solid var(--hitam);
+  border-radius: 16px;
+  padding: 16px;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 5px 5px 0px var(--hitam);
 }
 
-.btn-guest {
-    background: none;
-    border: none;
-    font-size: 14px;
-    color: #777;
-    cursor: pointer;
+.alert-box {
+  background: #fee2e2;
+  border: 3px solid #b91c1c;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  color: #b91c1c;
+  font-weight: 800;
+  text-align: center;
 }
 
-.btn-guest span {
-    color: #25754a;
-    font-weight: 700;
-}
-
-.error-msg {
-    margin-top: 15px;
-    background-color: #fff5f5;
-    color: #c53030;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    border: 1px solid #feb2b2;
-    text-align: center;
-}
-
-footer {
-    padding: 20px;
-    text-align: center;
-    color: #aaa;
-    font-size: 12px;
+.main-footer {
+  text-align: center;
+  padding: 25px;
+  color: #999;
+  font-weight: 700;
 }
