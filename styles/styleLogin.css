@@ -1,139 +1,196 @@
 ﻿﻿* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #fffdf4;
-  color: #333;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #f8fafb;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 5%;
-  width: 100%;
+  height: 90px;
   background-color: white;
-  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center; 
+  padding: 0 5%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.links {
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 10px;
+.main-logo {
+  height: 150px;
+  width: auto;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card { 
+    width: 100%;
+    max-width: 420px; 
+    background: #fff; 
+    padding: 40px; 
+    border-radius: 20px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    font-size: 26px;
+    color: #25754a;
+    font-weight: 700;
+}
+
+/* --- SOLUSI SIMETRIS --- */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Memastikan semua anak form (input & button) lebarnya sama rata */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+/* Hilangkan width 100% manual, biarkan flexbox yang mengaturnya */
+.input-group input, 
+.btn-login {
+    display: block;
+    padding: 14px 16px;
+    font-size: 15px;
+    border-radius: 12px;
+    outline: none;
+    font-family: inherit;
+    border: 2px solid #edf2f7; /* Samakan ketebalan border */
+}
+
+.input-group input {
+    background-color: #fcfcfc;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #25754a;
+    background-color: #fff;
+}
+
+.btn-login {
+    background-color: #25754a;
+    color: white;
+    border-color: #25754a; /* Samakan tebal border dengan input */
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #1c5a39;
+    border-color: #1c5a39;
+}
+
+/* Radio Button Group */
+.role-selection {
+    margin-bottom: 25px;
+}
+
+.label-text {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.radio-group {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-container {
+    flex: 1;
+}
+
+.radio-container input {
+    display: none;
+}
+
+.custom-radio {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+    background: #fff;
+}
+
+.radio-container input:checked + .custom-radio {
+    background-color: #25754a;
+    color: white;
+    border-color: #25754a;
+}
+
+/* Footer & Guest */
+.guest-wrapper {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.btn-guest {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+}
+
+.btn-guest span {
+    color: #25754a;
+    font-weight: 700;
+}
+
+.error-msg {
+    margin-top: 15px;
+    background-color: #fff5f5;
+    color: #c53030;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    border: 1px solid #feb2b2;
+    text-align: center;
 }
 
 footer {
-  background: #333;
-  color: #fff;
-}
-
-.logo img {
-  width: 120px;
-  display: block;
-  height: 60px;
-  object-fit: cover;
-}
-
-nav .brand {
-  font-weight: bold;
-  margin-right: 2rem;
-  color: #fff;
-  text-decoration: none;
-}
-nav a {
-  margin-right: 1rem;
-  color: #25754a;
-  text-decoration: none;
-  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
-}
-nav a {
-  text-decoration: none;
-  padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-bottom: 2px solid #00a896;
-  border-radius: 10px;
-}
-
-nav a:hover {
-  text-decoration: none;
-  border-bottom: 2px solid #00a896;
-  background-color: rgb(238, 238, 103);
-  padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 10px;
-}
-
-
-.login-container { 
-    max-width: 600px; 
-    margin: 50px auto;
-    margin-top: 200px;
-    background: #fff; 
-    padding: 50px; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 20px gray; 
-}
-
-.login-container h1 { 
-    text-align: center; 
-}
-
-.user input, .pass input {
-    display: block;
-}
-
-#user, #pass {
-    width: 100%;
-    padding: 5px;
-    margin-top: 10px;
-}
-
-.login-container form button { 
-    margin-top: 10px; 
-    padding: 10px;
-    width: 100%;
-}
-
-legend {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.eror {
-    color: red;
+    padding: 20px;
     text-align: center;
-    padding: 10px;
-    margin-top: 10px;
-    font-weight: bold;
+    color: #aaa;
+    font-size: 12px;
 }
-
-/* .guest{
-  text-align: right;
-  margin-top: 15px;
-  display: block;
-} */
-
-.guest{
-  text-align: right;
-  background: none;
-  border: none;
-  color: black;
-  cursor: pointer;
-  font-size: inherit;
-  display: inline;
-}
-
-.guest-btn{
-  text-decoration: underline;
-  color: blue;
-}
-
