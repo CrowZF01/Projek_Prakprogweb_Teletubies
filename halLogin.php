@@ -51,7 +51,7 @@ if (isset($_POST["login"])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Teletu</title>
+  <title>Login - Teletubies</title>
   <!-- Font Playful -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/styleLogin.css">
@@ -115,7 +115,7 @@ if (isset($_POST["login"])) {
   </main>
 
   <footer>
-    &copy; <?php echo date("Y"); ?> Crowdfunding Platform
+    &copy; <?php echo date("Y"); ?> Teletubies Inc.
   </footer>
 
 </body>
