@@ -2,20 +2,20 @@
 session_start();
 require "koneksi/koneksi.php";
 
-if(!isset($_GET['id']) || empty($_GET['id'])){
-  header("location:halUtama.php");
-  exit();
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("location:halUtama.php");
+    exit();
 }
 
 $id = (int) $_GET['id'];
 $query = mysqli_query(
-  $koneksi,
-  "SELECT * FROM detail_campaign WHERE campaign_id = $id"
+    $koneksi,
+    "SELECT * FROM detail_campaign WHERE campaign_id = $id"
 );
 
 if (mysqli_num_rows($query) == 0) {
-  echo "Detail kampanye tidak ditemukan";
-  exit();
+    echo "Detail kampanye tidak ditemukan";
+    exit();
 }
 
 $data = mysqli_fetch_assoc($query);
@@ -37,23 +37,23 @@ $user_data = mysqli_fetch_assoc($query_user);
 $query_camp = mysqli_query($koneksi, "SELECT * FROM campaign WHERE id = $id");
 $camp_data = mysqli_fetch_assoc($query_camp);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nominal = $_POST['amount'];
     $metode = $_POST['method'];
     $pesan = $_POST['message'];
-    
+
     $nama_file = $_FILES['proof']['name'];
     $temp_file = $_FILES['proof']['tmp_name'];
     $folder_upload = "bukti_transfer/";
 
-    if(move_uploaded_file($temp_file, $folder_upload . $nama_file)){
+    if (move_uploaded_file($temp_file, $folder_upload . $nama_file)) {
         $masukkan = mysqli_query($koneksi, "INSERT INTO donasi (user_id, campaign_id, nominal_donasi, metode_pembayaran, pesan_dukungan, bukti_transfer, status) VALUES ('$user_id', '$id', '$nominal', '$metode', '$pesan', '$nama_file', 'PENDING')");
-        if($masukkan){
+        if ($masukkan) {
             echo "<script>alert('Donasi berhasil, menunggu verifikasi admin'); window.location='halUtama.php';</script>";
         } else {
             echo "gagal menyimpan data";
         }
-    } else{
+    } else {
         echo "gagal mengunggah gambar";
     }
 }
@@ -61,12 +61,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donasi</title>
+    <title>Donasi - Neo-Prok</title>
     <link rel="stylesheet" href="styles/styleHalDonate.css">
 </head>
 
@@ -74,64 +74,44 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     <header>
         <div class="logo">
-            <a href="halUtama.php">
-                <img src="img/T.png" alt="Klik gambar ini" />
-            </a>
+            <img src="img/T.png" alt="Logo"> <!-- Pastikan path logo benar -->
         </div>
-        <?php
-        echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
-        ?>
-        <nav class="links">
-            <a href="halUtama.php" class="active">Home</a>
-            <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "guest"): ?>
-                <a href="halLogin.php">Login</a>
-            <?php else: ?>
-                <a href="logout.php">Logout</a>
-            <?php endif; ?>
-        </nav>
+        <div class="links">
+            <div class="datang">Mari Berbagi!</div>
+            <nav>
+                <a href="halUtama.php">Home</a>
+                <a href="halLogin.php">Logout</a>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <a href="halDetail.php?id=<?php echo $id; ?>" class="back">&larr; Kembali ke Detail</a>
-        <section class="donate">
-            <h1>Formulir Donasi</h1>
-            <p class="campaign-summary">Anda akan mendonasikan untuk <strong><?php echo $data['judul_detail'] ?></strong> oleh <?php echo $data['penyelenggara'] ?></p>
-            <form action="" method="POST" enctype="multipart/form-data">
-                <label for="nama">Nama Lengkap</label>
-                <input type="text" id="nama" name="nama" value="<?php echo $user_data['nama_lengkap']; ?>" required>
-                <br>
+        <div class="donate-card">
+            <h1>Donasi <span>Sekarang</span></h1>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<?php echo $user_data['email']; ?>" required>
-                <br>
+            <form action="proses_donasi.php" method="POST">
+                <div class="form-group">
+                    <label for="nama">NAMA LENGKAP</label>
+                    <input type="text" name="nama" id="nama" placeholder="Masukkan nama Anda" required>
+                </div>
 
-                <label for="amount">Nominal Donasi (Min Rp 10.000)</label>
-                <input type="number" id="amount" name="amount" min="10000" step="10000" required>
-                <br>
+                <div class="form-group">
+                    <label for="jumlah">NOMINAL DONASI (RP)</label>
+                    <input type="number" name="jumlah" id="jumlah" placeholder="Contoh: 50000" required>
+                </div>
 
-                <label for="method">Metode Pembayaran</label>
-                <select id="method" name="method">
-                    <option value="bank">Transfer Bank</option>
-                    <option value="e-wallet">E-Wallet</option>
-                </select>
-                <br>
+                <div class="form-group">
+                    <label for="pesan">PESAN BAIK</label>
+                    <textarea name="pesan" id="pesan" rows="3" placeholder="Tulis doa atau pesan singkat..."></textarea>
+                </div>
 
-                <label for="message">Pesan Dukungan (opsional)</label>
-                <textarea id="message" name="message"></textarea>
-                <br>
-
-                <label for="proof">Bukti Transfer (PDF/JPG/PNG)</label>
-                <input type="file" id="proof" name="proof" accept=".pdf,.jpg,.png">
-                <br>
-
-                <button class="btn" type="submit">Kirim Donasi</button>
+                <div class="btn-container">
+                    <button type="submit" class="btn-primary">Kirim Donasi</button>
+                    <a href="halUtama.php" class="btn-secondary"> Kembali ke Beranda</a>
+                </div>
             </form>
-        </section>
+        </div>
     </main>
-
-    <footer>
-        <h2>Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat berarti bagi mereka :) </h2>
-    </footer>
 
 </body>
 

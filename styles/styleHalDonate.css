@@ -1,187 +1,225 @@
-﻿* {
+﻿@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap");
+
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+:root {
+  --green: #25754a;
+  --green-dark: #1a5436;
+  --green-light: #d4edde;
+  --yellow: #f6d73a;
+  --yellow-dark: #e2c320;
+  --cream: #fffdf4;
+  --ink: #1a1a1a;
+  --ink-light: #3a3a3a;
+  --white: #ffffff;
+  --border: 2.5px solid #1a1a1a;
+  --shadow-ink: 5px 5px 0px #1a1a1a;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: var(--cream);
+  color: var(--ink);
+  height: 100vh; /* Paksa tinggi body seukuran layar */
+  overflow: hidden; /* Menghilangkan scrollbar di body */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── HEADER (Sama dengan Hal Utama) ─── */
 header {
+  flex-shrink: 0; /* Mencegah header mengecil */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 5%;
-  width: 100%;
-  background-color: white;
-  border-bottom: 1px solid #ddd;
-  position: relative;
+  padding: 0 5%;
+  height: 72px;
+  background-color: var(--green);
+  border-bottom: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-
-main{
-  background-color: #fffdf4;
-  margin: 0;
-  padding: 0;
-  height: 100vh; 
-  font-family: sans-serif;
-}
-
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #fffdf4;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 
 .logo img {
-  width: 120px;
-  display: block;
-  height: 60px;
-  object-fit: cover;
+  height: 120px; /* Sesuaikan agar tidak terlalu besar di header */
+  filter: brightness(0) invert(1);
 }
 
 .links {
   display: flex;
-  gap: 15px;
-  align-items: center;
-  position: relative;
-  right: 0%;
-
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
-  /* position: absolute; */
+  gap: 12px;
 }
 
-nav .brand {
-  font-weight: bold;
-  margin-right: 2rem;
-  color: #fff;
-  text-decoration: none;
-}
-nav a {
-  margin-right: 1rem;
-  color: #25754a;
-  text-decoration: none;
-  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
-}
 nav a {
   text-decoration: none;
-  padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-bottom: 2px solid #00a896;
-  border-radius: 10px;
-  transition: 0.3s;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 8px 18px;
+  background-color: var(--yellow);
+  border: var(--border);
+  border-radius: 30px;
+  box-shadow: 3px 3px 0px var(--ink);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 nav a:hover {
-  text-decoration: none;
-  border-bottom: 2px solid #00a896;
-  background-color: rgb(238, 238, 103);
-  padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 10px;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px black;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--ink);
+  background-color: var(--white);
+}
+
+/* ─── MAIN CONTENT ─── */
+main {
+  flex: 1; /* Mengambil sisa ruang yang tersedia */
+  display: flex;
+  align-items: center; /* Pusatkan secara vertikal */
+  justify-content: center; /* Pusatkan secara horizontal */
+  padding: 60px 20px;
+  padding-bottom: 100px; /* Tambahkan padding bawah untuk ruang ekstra */
+}
+
+.donate-card {
+  width: 100%;
+  max-width: 500px; /* Sedikit lebih ramping */
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-ink);
+  padding: 25px 35px; /* Padding dikurangi agar tidak makan tempat */
+  animation: fadeUp 0.5s ease both;
+}
+
+.donate-card h1 {
+  font-family: "Fredoka One", cursive;
+  color: var(--green);
+  font-size: 1.8rem; /* Ukuran font judul diperkecil sedikit */
+  text-align: center;
+  margin-bottom: 20px; /* Margin dikurangi */
+}
+
+.donate-card h1 span {
+  color: var(--ink);
+  background-color: var(--yellow);
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  display: inline-block;
+  transform: rotate(-1.5deg);
+}
+
+/* ─── FORM ELEMENTS ─── */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  resize: none;
+  height: 80px;
+  width: 100%;
+  padding: 14px 18px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--white);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  box-shadow: 5px 5px 0px var(--green);
+  transform: translate(-2px, -2px);
+}
+
+/* ─── BUTTONS ─── */
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Jarak antar tombol diperkecil */
+  margin-top: 20px;
+}
+
+.btn-primary {
+  font-family: "Nunito", sans-serif;
+  background-color: var(--green);
+  color: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
   cursor: pointer;
+  box-shadow: var(--shadow-ink);
+  transition: all 0.15s ease;
 }
 
-.donate{
-    background-color: white;
-    border-radius: 15px;
-    padding: 30px 40px 20px;
-    box-shadow: 0 4px 20px gray; 
-    width: 90%;
-    max-width: 450px; 
-    text-align: center;
-    position: relative;
-    margin: 0 auto;
+.btn-primary:hover {
+  background-color: var(--green-dark);
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px var(--ink);
 }
 
-h2 {
-    color: black;
-    font-family: 'Serif', serif;
-    margin-bottom: 10px;
-    font-size: 24px; 
+.btn-secondary {
+  text-align: center;
+  text-decoration: none;
+  font-family: "Nunito", sans-serif;
+  background-color: var(--yellow);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px var(--ink);
+  transition: all 0.15s ease;
 }
 
-p {
-    font-size: 18px;
-    margin-bottom: 20px;
+.btn-secondary:hover {
+  background-color: var(--white);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--ink);
 }
 
-label {
-    display: block;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: black;
-    font-size: 14px;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-input, select, textarea {
-    font-size: 16px; 
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-button {
-    font-size: 18px;
-    padding: 12px;
-    width: 100%;
-    background-color: #25754a;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-button:hover, .back:hover {
-    background-color: #1a5938;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px black;
-}
-
-.back {
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #25754a;
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 18px;
-    transition: 0.3s ;
-    top: 13px;
-    left: 150px;
-}
-
-
-footer{
-    background-color: #25754a;
-    text-align: center;
-    color: white;
-    padding: 20px;
-}
-
-footer h2{
-    color: white;
-}
-
-.datang{
-  color: #25754a;
-  font-weight: bold;
-  font-size: 20px;
-  position: relative;
-  left: 2%;
+@media (max-height: 600px) {
+  body {
+    overflow-y: auto;
+  }
+  main {
+    height: auto;
+    padding: 40px 20px;
+  }
 }
