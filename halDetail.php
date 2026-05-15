@@ -5,11 +5,11 @@ require "koneksi/koneksi.php";
 $id = (int) $_GET['id'];
 $query = mysqli_query(
   $koneksi,
-  "SELECT * FROM detail_campaign WHERE campaign_id = $id"
+  "SELECT * FROM campaign WHERE id = $id" // Ambil langsung dari tabel campaign
 );
 
 if (mysqli_num_rows($query) == 0) {
-  echo "Detail kampanye tidak ditemukan";
+  echo "Detail kampanye tidak ditemukan di tabel utama";
   exit();
 }
 
@@ -71,7 +71,7 @@ if ($progress > 100) {
       <a href="halUtama.php" class="back">&larr; Kembali ke Beranda</a>
       <div class="campaign-title">
         <h1>
-          <span class="pertama"><?php echo $data['judul_detail']; ?></span>
+          <span class="pertama"><?php echo $data['judul']; ?></span>
         </h1>
         <p class="subtitle">
           <?php echo $data['sub_judul']; ?>
@@ -79,7 +79,7 @@ if ($progress > 100) {
       </div>
       <div class="detail-content">
         <div class="poster">
-          <img src="img/<?php echo $data['gambar_detail']; ?>" alt="detail kampanye" />
+          <img src="<?php echo $data['gambar']; ?>" alt="detail kampanye" />
           <div class="tags">
             <span class="tag">🔖 <?php echo $data['kategori']; ?></span>
             <span class="tag">📍 <?php echo $data['lokasi']; ?></span>
@@ -106,14 +106,14 @@ if ($progress > 100) {
             <p><strong>Penyelenggara:</strong><br /><?php echo $data['penyelenggara']; ?></p>
             <p><strong>Deadline:</strong><br /><?php echo date("d M Y", strtotime($data['deadline'])); ?></p>
           </div>
-          <?php  
-          if(isset($_SESSION["id"]) && $_SESSION["role"] != "guest"):?>
-          <a href="halDonate.php?id=<?php echo $id; ?>" class="btn">
-            Donasi Sekarang
-          </a>
+          <?php
+          if (isset($_SESSION["id"]) && $_SESSION["role"] != "guest"): ?>
+            <a href="halDonate.php?id=<?php echo $id; ?>" class="btn">
+              Donasi Sekarang
+            </a>
           <?php else: ?>
             <a href="halLogin.php" class="btn" onclick="return confirm('Silahkan login terlebih dahulu untuk memberikan donasi')">Donasi Sekarang</a>
-            <?php endif; ?>
+          <?php endif; ?>
           <p style="font-size: 12px; color: #888; margin-top: 15px">
             Proyek ini hanya akan didanai jika mencapai target atau telah
             melewati batas waktu yang ditentukan.

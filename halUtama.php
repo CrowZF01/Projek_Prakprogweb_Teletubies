@@ -100,7 +100,7 @@ if (isset($_SESSION["nama_user"])) {
 
         <article class="card">
           <div class="card-image">
-            <img src="img/<?php echo $row['gambar']; ?>" alt="<?php echo htmlspecialchars($row['judul']); ?>">
+            <img src="<?php echo $row['gambar']; ?>" alt="<?php echo htmlspecialchars($row['judul']); ?>">
           </div>
 
           <div class="card-content">

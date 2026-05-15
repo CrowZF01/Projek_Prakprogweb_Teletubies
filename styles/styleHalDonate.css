@@ -9,198 +9,180 @@
 :root {
   --green: #25754a;
   --green-dark: #1a5436;
-  --green-light: #d4edde;
   --yellow: #f6d73a;
-  --yellow-dark: #e2c320;
   --cream: #fffdf4;
   --ink: #1a1a1a;
-  --ink-light: #3a3a3a;
   --white: #ffffff;
   --border: 2.5px solid #1a1a1a;
-  --shadow-ink: 5px 5px 0px #1a1a1a;
-  --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 20px;
 }
 
 body {
   font-family: "Nunito", sans-serif;
   background-color: var(--cream);
-  color: var(--ink);
-  height: 100vh; /* Paksa tinggi body seukuran layar */
-  overflow: hidden; /* Menghilangkan scrollbar di body */
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Tetap tanpa scroll */
 }
 
-/* ─── HEADER (Sama dengan Hal Utama) ─── */
+/* ─── HEADER ─── */
 header {
-  flex-shrink: 0; /* Mencegah header mengecil */
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
-  height: 72px;
+  padding: 0 4%;
+  height: 65px;
   background-color: var(--green);
   border-bottom: var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 .logo img {
-  height: 120px; /* Sesuaikan agar tidak terlalu besar di header */
+  height: 40px;
   filter: brightness(0) invert(1);
-}
-
-.links {
-  display: flex;
-  gap: 12px;
 }
 
 nav a {
   text-decoration: none;
   color: var(--ink);
   font-weight: 800;
-  font-size: 14px;
-  padding: 8px 18px;
   background-color: var(--yellow);
   border: var(--border);
+  padding: 8px 20px;
   border-radius: 30px;
   box-shadow: 3px 3px 0px var(--ink);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-nav a:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px var(--ink);
-  background-color: var(--white);
 }
 
 /* ─── MAIN CONTENT ─── */
 main {
-  flex: 1; /* Mengambil sisa ruang yang tersedia */
+  flex: 1;
   display: flex;
-  align-items: center; /* Pusatkan secara vertikal */
-  justify-content: center; /* Pusatkan secara horizontal */
-  padding: 60px 20px;
-  padding-bottom: 100px; /* Tambahkan padding bawah untuk ruang ekstra */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .donate-card {
-  width: 100%;
-  max-width: 500px; /* Sedikit lebih ramping */
+  width: 95%;
+  max-width: 900px; /* Diperlebar agar memanjang ke samping */
   background: var(--white);
   border: var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-ink);
-  padding: 25px 35px; /* Padding dikurangi agar tidak makan tempat */
-  animation: fadeUp 0.5s ease both;
+  border-radius: var(--radius-md);
+  box-shadow: 8px 8px 0px var(--ink);
+  padding: 30px;
+  animation: fadeUp 0.5s ease-out;
 }
 
-.donate-card h1 {
-  font-family: "Fredoka One", cursive;
-  color: var(--green);
-  font-size: 1.8rem; /* Ukuran font judul diperkecil sedikit */
+/* Judul Kampanye (Full Width di atas) */
+.camp-summary {
   text-align: center;
-  margin-bottom: 20px; /* Margin dikurangi */
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px dashed var(--green-dark);
 }
 
-.donate-card h1 span {
-  color: var(--ink);
-  background-color: var(--yellow);
-  padding: 0 10px;
-  border-radius: var(--radius-sm);
-  border: var(--border);
-  display: inline-block;
-  transform: rotate(-1.5deg);
+.camp-summary h2 {
+  font-family: "Fredoka One", cursive;
+  font-size: 1.8rem;
+  color: var(--green);
 }
 
-/* ─── FORM ELEMENTS ─── */
+/* Grid Layout: Membagi Form menjadi 2 Kolom */
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Membagi dua kolom sama besar */
+  gap: 30px; /* Jarak antar kolom */
+}
+
+/* Kolom Kiri: Data Diri */
+.column-left {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Kolom Kanan: Data Donasi */
+.column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .form-group {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group label {
-  display: block;
   font-weight: 800;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  color: var(--ink-light);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--ink);
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  resize: none;
-  height: 80px;
   width: 100%;
-  padding: 14px 18px;
+  padding: 12px 15px;
   font-family: "Nunito", sans-serif;
   font-weight: 700;
   font-size: 1rem;
   border: var(--border);
-  border-radius: var(--radius-md);
-  background-color: var(--white);
-  outline: none;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  background: #fdfdfd;
 }
 
-.form-group input:focus {
-  box-shadow: 5px 5px 0px var(--green);
-  transform: translate(-2px, -2px);
+.form-group input:disabled {
+  background-color: #f0f0f0;
+  border-style: dashed;
 }
 
-/* ─── BUTTONS ─── */
+.form-group textarea {
+  height: 85px; /* Menyesuaikan agar sejajar dengan kolom sebelah */
+  resize: none;
+}
+
+/* Bagian Bawah: Tombol (Full Width di bawah grid) */
 .btn-container {
+  grid-column: span 2; /* Menyatukan kembali dua kolom untuk area tombol */
   display: flex;
-  flex-direction: column;
-  gap: 10px; /* Jarak antar tombol diperkecil */
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .btn-primary {
-  font-family: "Nunito", sans-serif;
+  flex: 2;
   background-color: var(--green);
   color: var(--white);
   border: var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  font-size: 1.1rem;
+  padding: 15px;
+  border-radius: 10px;
   font-weight: 800;
-  text-transform: uppercase;
+  font-size: 1.1rem;
   cursor: pointer;
-  box-shadow: var(--shadow-ink);
-  transition: all 0.15s ease;
-}
-
-.btn-primary:hover {
-  background-color: var(--green-dark);
-  transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0px var(--ink);
+  box-shadow: 4px 4px 0px var(--ink);
+  text-transform: uppercase;
 }
 
 .btn-secondary {
+  flex: 1;
   text-align: center;
   text-decoration: none;
-  font-family: "Nunito", sans-serif;
   background-color: var(--yellow);
   color: var(--ink);
   border: var(--border);
-  border-radius: var(--radius-md);
-  padding: 12px;
-  font-size: 1rem;
+  padding: 15px;
+  border-radius: 10px;
   font-weight: 800;
-  box-shadow: 3px 3px 0px var(--ink);
-  transition: all 0.15s ease;
+  box-shadow: 4px 4px 0px var(--ink);
 }
 
+.btn-primary:hover,
 .btn-secondary:hover {
-  background-color: var(--white);
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px var(--ink);
+  box-shadow: 6px 6px 0px var(--ink);
 }
 
 @keyframes fadeUp {
@@ -214,12 +196,18 @@ main {
   }
 }
 
-@media (max-height: 600px) {
+/* Responsivitas: Jika layar kecil, balik ke 1 kolom agar tidak rusak */
+@media (max-width: 768px) {
   body {
     overflow-y: auto;
   }
-  main {
-    height: auto;
-    padding: 40px 20px;
+  form {
+    grid-template-columns: 1fr;
+  }
+  .btn-container {
+    grid-column: span 1;
+  }
+  .donate-card {
+    margin: 20px 0;
   }
 }

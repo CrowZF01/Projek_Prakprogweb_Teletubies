@@ -278,14 +278,14 @@ main {
   box-shadow: 9px 9px 0px var(--green);
 }
 
-.card:nth-child(3n + 1):hover {
+/* Untuk card nomor 1, 3, 5, dst (Ganjil) */
+.card:nth-child(odd):hover {
   box-shadow: 9px 9px 0px var(--green);
 }
-.card:nth-child(3n + 2):hover {
+
+/* Untuk card nomor 2, 4, 6, dst (Genap) */
+.card:nth-child(even):hover {
   box-shadow: 9px 9px 0px var(--yellow-dark);
-}
-.card:nth-child(3n + 3):hover {
-  box-shadow: 9px 9px 0px var(--ink);
 }
 
 .card-image {

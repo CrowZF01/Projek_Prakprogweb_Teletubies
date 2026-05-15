@@ -2,62 +2,68 @@
 session_start();
 require "koneksi/koneksi.php";
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("location:halUtama.php");
-    exit();
-}
-
-$id = (int) $_GET['id'];
-$query = mysqli_query(
-    $koneksi,
-    "SELECT * FROM detail_campaign WHERE campaign_id = $id"
-);
-
-if (mysqli_num_rows($query) == 0) {
-    echo "Detail kampanye tidak ditemukan";
-    exit();
-}
-
-$data = mysqli_fetch_assoc($query);
-
+// 1. VALIDASI LOGIN
 if (!isset($_SESSION["id"])) {
     header("location:halLogin.php");
     exit();
 }
 
-if (isset($_SESSION["nama_user"])) {
-    $nama = $_SESSION["nama_user"];
-} else {
-    $nama = "user";
+// 2. VALIDASI ID CAMPAIGN
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("location:halUtama.php");
+    exit();
 }
 
+$id_campaign = (int)$_GET['id'];
 $user_id = $_SESSION['id'];
-$query_user = mysqli_query($koneksi, "SELECT nama_lengkap, email FROM user WHERE id = $user_id");
-$user_data = mysqli_fetch_assoc($query_user);
-$query_camp = mysqli_query($koneksi, "SELECT * FROM campaign WHERE id = $id");
+
+// 3. AMBIL DATA KAMPANYE (Ringkasan)
+$query_camp = mysqli_query($koneksi, "SELECT * FROM campaign WHERE id = $id_campaign");
 $camp_data = mysqli_fetch_assoc($query_camp);
 
+if (!$camp_data) {
+    echo "Kampanye tidak ditemukan";
+    exit();
+}
+
+// 4. AMBIL DATA USER (Nama & Email)
+$query_user = mysqli_query($koneksi, "SELECT nama_lengkap, email FROM user WHERE id = $user_id");
+$user_data = mysqli_fetch_assoc($query_user);
+
+// 5. PROSES SUBMIT DONASI
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nominal = $_POST['amount'];
     $metode = $_POST['method'];
     $pesan = $_POST['message'];
 
-    $nama_file = $_FILES['proof']['name'];
-    $temp_file = $_FILES['proof']['tmp_name'];
-    $folder_upload = "bukti_transfer/";
-
-    if (move_uploaded_file($temp_file, $folder_upload . $nama_file)) {
-        $masukkan = mysqli_query($koneksi, "INSERT INTO donasi (user_id, campaign_id, nominal_donasi, metode_pembayaran, pesan_dukungan, bukti_transfer, status) VALUES ('$user_id', '$id', '$nominal', '$metode', '$pesan', '$nama_file', 'PENDING')");
-        if ($masukkan) {
-            echo "<script>alert('Donasi berhasil, menunggu verifikasi admin'); window.location='halUtama.php';</script>";
-        } else {
-            echo "gagal menyimpan data";
-        }
+    // Validasi Minimal 10.000
+    if ($nominal < 10000) {
+        echo "<script>alert('Minimal donasi adalah Rp 10.000');</script>";
     } else {
-        echo "gagal mengunggah gambar";
+        $nama_file = $_FILES['proof']['name'];
+        $temp_file = $_FILES['proof']['tmp_name'];
+        $ekstensi = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'pdf'];
+
+        if (in_array($ekstensi, $allowed)) {
+            $nama_file_baru = time() . "_" . $nama_file; // Hindari nama file duplikat
+            $folder_upload = "bukti_transfer/";
+
+            if (move_uploaded_file($temp_file, $folder_upload . $nama_file_baru)) {
+                $sql = "INSERT INTO donasi (user_id, campaign_id, nominal_donasi, metode_pembayaran, pesan_dukungan, bukti_transfer, status) 
+                        VALUES ('$user_id', '$id_campaign', '$nominal', '$metode', '$pesan', '$nama_file_baru', 'PENDING')";
+
+                if (mysqli_query($koneksi, $sql)) {
+                    echo "<script>alert('Donasi berhasil terkirim! Status: PENDING (Menunggu Verifikasi)'); window.location='halUtama.php';</script>";
+                } else {
+                    echo "Error: " . mysqli_error($koneksi);
+                }
+            }
+        } else {
+            echo "<script>alert('Format file harus JPG, PNG, atau PDF!');</script>";
+        }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -66,48 +72,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donasi - Neo-Prok</title>
+    <title>Donasi - Teletubies</title>
     <link rel="stylesheet" href="styles/styleHalDonate.css">
 </head>
 
 <body>
 
     <header>
-        <div class="logo">
-            <img src="img/T.png" alt="Logo"> <!-- Pastikan path logo benar -->
-        </div>
+        <div class="logo"><img src="img/T.png" alt="Logo"></div>
         <div class="links">
-            <div class="datang">Mari Berbagi!</div>
             <nav>
                 <a href="halUtama.php">Home</a>
-                <a href="halLogin.php">Logout</a>
+                <a href="logout.php">Logout</a>
             </nav>
         </div>
     </header>
 
     <main>
         <div class="donate-card">
-            <h1>Donasi <span>Sekarang</span></h1>
+            <div class="camp-summary">
+                <h2> Donasi Sekarang</h2>
+            </div>
 
-            <form action="proses_donasi.php" method="POST">
-                <div class="form-group">
-                    <label for="nama">NAMA LENGKAP</label>
-                    <input type="text" name="nama" id="nama" placeholder="Masukkan nama Anda" required>
+            <form action="" method="POST" enctype="multipart/form-data">
+                <!-- KOLOM KIRI -->
+                <div class="column-left">
+                    <div class="form-group">
+                        <label>NAMA LENGKAP</label>
+                        <input type="text" value="<?php echo $user_data['nama_lengkap']; ?>" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>EMAIL</label>
+                        <input type="text" value="<?php echo $user_data['email']; ?>" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>PESAN DUKUNGAN (OPSIONAL)</label>
+                        <textarea name="message" placeholder="Tulis doa atau dukungan..."></textarea>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="jumlah">NOMINAL DONASI (RP)</label>
-                    <input type="number" name="jumlah" id="jumlah" placeholder="Contoh: 50000" required>
+                <!-- KOLOM KANAN -->
+                <div class="column-right">
+                    <div class="form-group">
+                        <label>NOMINAL DONASI (MIN RP 10.000)</label>
+                        <input type="number" name="amount" min="10000" placeholder="Contoh: 50000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>METODE PEMBAYARAN</label>
+                        <select name="method" required>
+                            <option value="Gopay">Gopay</option>
+                            <option value="Transfer Bank">Transfer Bank</option>
+                            <option value="OVO">OVO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>BUKTI TRANSFER (JPG/PNG/PDF)</label>
+                        <input type="file" name="proof" required>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="pesan">PESAN BAIK</label>
-                    <textarea name="pesan" id="pesan" rows="3" placeholder="Tulis doa atau pesan singkat..."></textarea>
-                </div>
-
+                <!-- TOMBOL -->
                 <div class="btn-container">
-                    <button type="submit" class="btn-primary">Kirim Donasi</button>
-                    <a href="halUtama.php" class="btn-secondary"> Kembali ke Beranda</a>
+                    <button type="submit" class="btn-primary">Kirim Donasi Sekarang</button>
+                    <a href="halUtama.php" class="btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>
