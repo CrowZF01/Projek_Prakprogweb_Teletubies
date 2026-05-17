@@ -39,7 +39,13 @@ header {
 }
 
 .logo img {
-  height: 40px;
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
   filter: brightness(0) invert(1);
 }
 

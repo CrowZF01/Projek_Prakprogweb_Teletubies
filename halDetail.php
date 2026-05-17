@@ -54,14 +54,15 @@ if ($progress > 100) {
       </a>
     </div>
     <?php
-    echo "<p class = 'datang'>Selamat Datang $nama, Selamat Berdonasi</p>";
+    echo "<p class='datang'>👋 Halo, $nama!</p>";
     ?>
+
     <nav class="links">
-      <a href="halUtama.php" class="active">Home</a>
+      <a href="halUtama.php" class="active">🏠 Home</a>
       <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "guest"): ?>
-        <a href="halLogin.php">Login</a>
+        <a href="halLogin.php">🔑 Login</a>
       <?php else: ?>
-        <a href="logout.php">Logout</a>
+        <a href="logout.php">👋 Logout</a>
       <?php endif; ?>
     </nav>
   </header>
@@ -124,10 +125,7 @@ if ($progress > 100) {
   </main>
 
   <footer>
-    <h2>
-      Kirimkan dukunganmu segera. Setiap rupiah yang kamu berikan itu sangat
-      berarti bagi mereka :
-    </h2>
+    <h2>Kirimkan dukunganmu segera — setiap rupiah yang kamu berikan sangat berarti bagi mereka 💚</h2>
   </footer>
 </body>
 

@@ -2,30 +2,47 @@
 session_start();
 require "koneksi/koneksi.php";
 
-// Proteksi Halaman: Pastikan yang login adalah manager
 if (!isset($_SESSION["role"]) || $_SESSION["role"] != "manager") {
     header("location:halLogin.php");
     exit();
 }
 
-$nama = isset($_SESSION["nama_user"]) ? $_SESSION["nama_user"] : "Pengelola";
+if (isset($_SESSION["nama_user"])) {
+    $nama = $_SESSION["nama_user"];
+} else {
+    $nama = "Pengelola";
+}
 
-// 1. Ambil semua list kampanye untuk Dropdown (Testing: Bisa melihat semuanya)
-$query_list = mysqli_query($koneksi, "SELECT campaign_id, judul_detail FROM detail_campaign");
+$nama_pengelola = mysqli_real_escape_string($koneksi, $nama);
+$query_list = mysqli_query($koneksi, "
+    SELECT id, judul 
+    FROM campaign 
+    WHERE penyelenggara = '$nama_pengelola'
+");
 
-// 2. Ambil detail kampanye yang sedang dipilih via Dropdown
-$id_dipilih = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (isset($_GET['id'])) {
+    $id_dipilih = (int)$_GET['id'];
+} else {
+    $id_dipilih = 0;
+}
+
 $data = null;
 $progress = 0;
 
 if ($id_dipilih > 0) {
-    $query_detail = mysqli_query($koneksi, "SELECT * FROM detail_campaign WHERE campaign_id = $id_dipilih");
+    $query_detail = mysqli_query($koneksi, "
+        SELECT * FROM campaign 
+        WHERE id = $id_dipilih 
+        AND penyelenggara = '$nama_pengelola'
+    ");
     $data = mysqli_fetch_assoc($query_detail);
     
     if ($data) {
         if ($data['target_dana'] > 0) {
             $progress = ($data['dana_terkumpul'] / $data['target_dana']) * 100;
-            if ($progress > 100) $progress = 100;
+            if ($progress > 100) {
+                $progress = 100;
+            }
         }
     }
 }
@@ -37,7 +54,6 @@ if ($id_dipilih > 0) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel Pengelola - Crowdfunding</title>
-    <!-- Menggunakan CSS Detail asli kamu + CSS Tambahan Pengelola -->
     <link rel="stylesheet" href="styles/styleHalDetail.css" />
     <link rel="stylesheet" href="styles/stylePengelola.css" />
 </head>
@@ -48,58 +64,56 @@ if ($id_dipilih > 0) {
                 <img src="img/T.png" alt="Logo" />
             </a>
         </div>
-        <?php echo "<p class='datang'>Panel Pengelola: $nama</p>"; ?>
+        <?php echo "<p class='datang'>👋 Panel Pengelola: $nama</p>"; ?>
         <nav class="links">
-            <a href="halUtama.php">Home</a>
-            <a href="logout.php">Logout</a>
+            <!-- <a href="halUtama.php">🏠 Home</a> -->
+            <a href="logout.php">👋 Logout</a>
         </nav>
     </header>
 
     <main>
         <section class="detail">
-            <!-- SELECTOR KAMPANYE -->
             <div class="selector-container">
                 <label for="campaign_select">Pilih Kampanye Anda:</label>
                 <select id="campaign_select" onchange="window.location.href='halPengelola.php?id=' + this.value">
                     <option value="">-- Pilih Kampanye untuk Dikelola --</option>
                     <?php while($list = mysqli_fetch_assoc($query_list)): ?>
-                        <option value="<?php echo $list['campaign_id']; ?>" <?php echo ($id_dipilih == $list['campaign_id']) ? 'selected' : ''; ?>>
-                            <?php echo $list['judul_detail']; ?>
+                        <option value="<?php echo $list['id']; ?>" <?php echo ($id_dipilih == $list['id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($list['judul']); ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
             </div>
 
             <?php if ($data): ?>
-            <!-- FORM EDIT (CRUD MODE) -->
             <form action="proses_update_kampanye.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="campaign_id" value="<?php echo $data['campaign_id']; ?>">
+                <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
                 
                 <div class="campaign-title">
                     <h1>
-                        <input type="text" name="judul_detail" class="edit-judul" value="<?php echo $data['judul_detail']; ?>">
+                        <input type="text" name="judul" class="edit-judul" value="<?php echo htmlspecialchars($data['judul']); ?>">
                     </h1>
-                    <textarea name="sub_judul" class="edit-subtitle"><?php echo $data['sub_judul']; ?></textarea>
+                    <textarea name="sub_judul" class="edit-subtitle"><?php echo htmlspecialchars($data['sub_judul']); ?></textarea>
                 </div>
 
                 <div class="detail-content">
                     <div class="poster">
                         <div class="poster-edit-container">
-                            <img src="img/<?php echo $data['gambar_detail']; ?>" alt="detail kampanye" />
+                            <img src="<?php echo $data['gambar']; ?>" alt="detail kampanye" />
                             <div class="file-upload">
                                 <span>Ganti Gambar: </span>
-                                <input type="file" name="gambar_detail">
+                                <input type="file" name="gambar">
                             </div>
                         </div>
 
                         <div class="tags edit-mode-tags">
-                            <span class="tag">🔖 <input type="text" name="kategori" value="<?php echo $data['kategori']; ?>"></span>
-                            <span class="tag">📍 <input type="text" name="lokasi" value="<?php echo $data['lokasi']; ?>"></span>
+                            <span class="tag">🔖 <input type="text" name="kategori" value="<?php echo htmlspecialchars($data['kategori']); ?>"></span>
+                            <span class="tag">📍 <input type="text" name="lokasi" value="<?php echo htmlspecialchars($data['lokasi']); ?>"></span>
                         </div>
 
                         <div class="desc-edit-area">
                             <label>Deskripsi Lengkap:</label>
-                            <textarea name="deskripsi_lengkap"><?php echo $data['deskripsi_lengkap']; ?></textarea>
+                            <textarea name="deskripsi_lengkap"><?php echo htmlspecialchars($data['deskripsi_lengkap']); ?></textarea>
                         </div>
                     </div>
 
@@ -118,7 +132,7 @@ if ($id_dipilih > 0) {
 
                         <div class="stats-box manage">
                             <label>Penyelenggara:</label>
-                            <input type="text" name="penyelenggara" value="<?php echo $data['penyelenggara']; ?>">
+                            <input type="text" name="penyelenggara" value="<?php echo htmlspecialchars($data['penyelenggara']); ?>">
                             
                             <label>Deadline:</label>
                             <input type="date" name="deadline" value="<?php echo $data['deadline']; ?>">
@@ -130,7 +144,6 @@ if ($id_dipilih > 0) {
                 </div>
             </form>
 
-            <!-- BUKTI TRANSFER (HORIZONTAL SCROLL) -->
             <div class="bukti-section">
                 <h3>Bukti Donatur Masuk</h3>
                 <div class="scroll-wrapper">
@@ -144,7 +157,7 @@ if ($id_dipilih > 0) {
                             <div class="bukti-info">
                                 <p><strong>Rp<?php echo number_format($donasi['nominal_donasi']); ?></strong></p>
                                 <p class="status-donasi"><?php echo $donasi['status']; ?></p>
-                                <p class="pesan">"<?php echo $donasi['pesan_dukungan']; ?>"</p>
+                                <p class="pesan">"<?php echo htmlspecialchars($donasi['pesan_dukungan']); ?>"</p>
                                 <small><?php echo date("d M Y", strtotime($donasi['tgl_donasi'])); ?></small>
                             </div>
                         </div>
