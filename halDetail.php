@@ -50,7 +50,7 @@ if ($progress > 100) {
   <header>
     <div class="logo">
       <a href="halUtama.php">
-        <img src="img/T.png" alt="Klik gambar ini" />
+        <img src="logo/T.png" alt="Klik gambar ini" />
       </a>
     </div>
     <?php

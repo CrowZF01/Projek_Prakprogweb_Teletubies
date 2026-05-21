@@ -63,7 +63,7 @@ if (isset($_POST["login"])) {
   <header>
     <a href="halUtama.php" class="logo-box">
       <!-- Pastikan path img/T.png ini benar -->
-      <img src="img/T.png" alt="T" class="logo-img">
+      <img src="logo/T.png" alt="T" class="logo-img">
     </a>
   </header>
 

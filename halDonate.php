@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
     <header>
-        <div class="logo"><img src="img/T.png" alt="Logo"></div>
+        <div class="logo"><img src="logo/T.png" alt="Logo"></div>
         <div class="links">
             <nav>
                 <a href="halUtama.php">Home</a>

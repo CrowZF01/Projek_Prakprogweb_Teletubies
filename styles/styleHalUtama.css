@@ -498,6 +498,77 @@ footer h2 {
   animation: fadeUp 0.5s 0.2s ease both;
 }
 
+/* ─── PAGINATION (NEO-CARTOONIST) ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 40px 0 80px;
+  padding: 0 5%;
+}
+
+.page-btn {
+  text-decoration: none;
+  color: var(--ink);
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 10px 18px;
+  background-color: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 3px 3px 0px var(--ink);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.1s ease;
+  user-select: none;
+}
+
+.page-btn:hover {
+  background-color: var(--yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--ink);
+}
+
+.page-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+/* Halaman Aktif */
+.page-btn.active {
+  background-color: var(--green);
+  color: var(--white);
+  box-shadow: none;
+  transform: none;
+  border-color: var(--ink);
+  pointer-events: none;
+}
+
+/* Tombol Prev & Next */
+.page-btn.prev-btn,
+.page-btn.next-btn {
+  background-color: var(--green-light);
+  font-weight: 800;
+}
+
+.page-btn.prev-btn:hover,
+.page-btn.next-btn:hover {
+  background-color: var(--yellow);
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 8px;
+  }
+  .page-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 640px) {
   header {
