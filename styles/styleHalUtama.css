@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap");
 
 * {
   box-sizing: border-box;
@@ -365,6 +365,7 @@ main {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  line-clamp: 2;
   overflow: hidden;
   flex: 1;
 }
@@ -443,13 +444,11 @@ footer::before {
   left: 0;
   right: 0;
   height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--yellow) 0px,
-    var(--yellow) 20px,
-    transparent 20px,
-    transparent 28px
-  );
+  background: repeating-linear-gradient(90deg,
+      var(--yellow) 0px,
+      var(--yellow) 20px,
+      transparent 20px,
+      transparent 28px);
 }
 
 footer h2 {
@@ -482,6 +481,7 @@ footer h2 {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -491,9 +491,11 @@ footer h2 {
 .intro {
   animation: fadeUp 0.5s ease both;
 }
+
 .search-bar {
   animation: fadeUp 0.5s 0.1s ease both;
 }
+
 .campaigns {
   animation: fadeUp 0.5s 0.2s ease both;
 }
@@ -563,6 +565,7 @@ footer h2 {
   .pagination {
     gap: 8px;
   }
+
   .page-btn {
     padding: 8px 12px;
     font-size: 0.9rem;
@@ -574,13 +577,16 @@ footer h2 {
   header {
     padding: 0 4%;
   }
+
   .datang {
     display: none;
   }
+
   .campaigns {
     grid-template-columns: 1fr;
     padding: 0 4% 40px;
   }
+
   .intro h1 {
     font-size: 2rem;
   }
