@@ -31,7 +31,9 @@ if (isset($_POST["login"])) {
     $data = mysqli_fetch_assoc($query);
     $_SESSION["id"] = $data["id"];
     $_SESSION["role"] = $data["role"];
-    $_SESSION["nama_user"] = $data["username"];
+
+    // UBAH BARIS INI: Menggunakan 'nama_lengkap' agar cocok dengan kolom penyelenggara di campaign
+    $_SESSION["nama_user"] = $data["nama_lengkap"];
 
     if ($_SESSION["role"] == "manager") {
       header("location:halPengelola.php");
@@ -61,16 +63,17 @@ if (isset($_POST["login"])) {
 <body>
 
   <header>
-    <a href="halUtama.php" class="logo-box">
-      <!-- Pastikan path img/T.png ini benar -->
-      <img src="logo/T.png" alt="T" class="logo-img">
-    </a>
+    <div class="logo">
+      <a href="halUtama.php">
+        <img src="logo/T.png" alt="Logo" />
+      </a>
+    </div>
   </header>
 
   <main>
     <section class="login-card">
       <div class="login-left">
-        <img src="logo/T.png" alt="Logo Teletubies" class="login-left-logo">
+        <img src="logo/kepalateletubbies.png" alt="Logo Teletubies" class="login-left-logo">
         <h1>Selamat Datang</h1>
         <p>Silahkan masuk ke akun Anda</p>
       </div>

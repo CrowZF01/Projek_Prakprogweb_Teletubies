@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- TOMBOL -->
                 <div class="btn-container">
                     <button type="submit" class="btn-primary">Kirim Donasi Sekarang</button>
-                    <a href="halUtama.php" class="btn-secondary">Kembali</a>
+                    <a href="halDetail.php?id=<?php echo $id_campaign; ?>" class="btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>

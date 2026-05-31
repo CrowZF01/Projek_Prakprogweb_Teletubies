@@ -35,7 +35,7 @@ if ($page < 1) {
 }
 $offset = ($page - 1) * $limit;
 
-// Query dasar (tanpa limit) untuk menghitung total data yang sesuai filter
+// 1. Pastikan baris pendefinisian $sql_base ini ada dan tidak terhapus:
 $sql_base = "SELECT * FROM campaign WHERE deadline >= CURDATE()";
 
 if ($kategori_dipilih != '') {
@@ -48,14 +48,49 @@ if ($keyword != '') {
   $sql_base = $sql_base . " AND (judul LIKE '%$keyword_aman%' OR kategori LIKE '%$keyword_aman%' OR deskripsi LIKE '%$keyword_aman%')";
 }
 
-// Hitung total campaign setelah difilter
+// 2. Hitung total campaign setelah difilter
 $query_total = mysqli_query($koneksi, $sql_base);
 $total_records = mysqli_num_rows($query_total);
 $total_pages = ceil($total_records / $limit);
 
-// Jalankan query utama dengan menyertakan ORDER BY, LIMIT, dan OFFSET
-$sql = $sql_base . " ORDER BY deadline ASC LIMIT $limit OFFSET $offset";
+// 3. Jalankan query utama dengan menyertakan ORDER BY (deadline & target_dana), LIMIT, dan OFFSET
+$sql = $sql_base . " ORDER BY deadline ASC, target_dana ASC LIMIT $limit OFFSET $offset";
 $query = mysqli_query($koneksi, $sql);
+
+// === QUERY RIWAYAT DONASI UNTUK SLIDE PANE ===
+$is_donor = (isset($_SESSION['role']) && $_SESSION['role'] != 'guest' && isset($_SESSION['id']));
+$donasi_summary = [];
+$donasi_history = [];
+
+if ($is_donor) {
+  $user_id = (int)$_SESSION['id'];
+
+  // Ringkasan per status
+  $q_summary = mysqli_query($koneksi, "
+    SELECT status, COUNT(*) as jumlah, SUM(nominal_donasi) as total
+    FROM donasi
+    WHERE user_id = $user_id
+    GROUP BY status
+  ");
+  while ($s = mysqli_fetch_assoc($q_summary)) {
+    $donasi_summary[$s['status']] = [
+      'jumlah' => (int)$s['jumlah'],
+      'total' => (float)$s['total']
+    ];
+  }
+
+  // Riwayat detail
+  $q_history = mysqli_query($koneksi, "
+    SELECT d.*, c.judul AS judul_kampanye
+    FROM donasi d
+    JOIN campaign c ON d.campaign_id = c.id
+    WHERE d.user_id = $user_id
+    ORDER BY d.tgl_donasi DESC
+  ");
+  while ($h = mysqli_fetch_assoc($q_history)) {
+    $donasi_history[] = $h;
+  }
+}
 ?>
 
 <!doctype html>
@@ -64,7 +99,7 @@ $query = mysqli_query($koneksi, $sql);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beranda - Crowdfunding</title>
+  <title>Beranda - Teletubies</title>
   <link rel="stylesheet" href="styles/styleHalUtama.css" />
 </head>
 
@@ -78,15 +113,16 @@ $query = mysqli_query($koneksi, $sql);
     </div>
 
     <?php
-    echo "<p class='datang'>👋 Halo, $nama!</p>";
+    echo "<p class='datang'>Halo, $nama!</p>";
     ?>
 
     <nav class="links">
-      <a href="halUtama.php" class="active">🏠 Home</a>
+      <a href="halUtama.php" class="active">Home</a>
       <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "guest"): ?>
-        <a href="halLogin.php">🔑 Login</a>
+        <a href="halLogin.php">Login</a>
       <?php else: ?>
-        <a href="logout.php">👋 Logout</a>
+        <button id="btn-riwayat" class="btn-riwayat-toggle" onclick="toggleSlidePane()">Riwayat</button>
+        <a href="logout.php">Logout</a>
       <?php endif; ?>
     </nav>
   </header>
@@ -104,22 +140,22 @@ $query = mysqli_query($koneksi, $sql);
       <form action="halUtama.php" method="GET">
         <div class="search-container">
           <select class="category-select" name="kategori" onchange="this.form.submit()">
-            <option value="">✦ Semua Kategori</option>
+            <option value="">Semua Kategori</option>
             <option value="Pendidikan" <?php if ($kategori_dipilih == 'Pendidikan') {
                                           echo 'selected';
-                                        } ?>>📚 Pendidikan</option>
+                                        } ?>>Pendidikan</option>
             <option value="Kesehatan" <?php if ($kategori_dipilih == 'Kesehatan') {
                                         echo 'selected';
-                                      } ?>>❤️ Kesehatan</option>
+                                      } ?>>Kesehatan</option>
             <option value="Lingkungan" <?php if ($kategori_dipilih == 'Lingkungan') {
                                           echo 'selected';
-                                        } ?>>🌿 Lingkungan</option>
+                                        } ?>>Lingkungan</option>
             <option value="Kemanusiaan" <?php if ($kategori_dipilih == 'Kemanusiaan') {
                                           echo 'selected';
-                                        } ?>>🤝 Kemanusiaan</option>
+                                        } ?>>Kemanusiaan</option>
           </select>
           <div class="divider"></div>
-          <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="🔍  Cari judul kampanye..." />
+          <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari judul kampanye..." />
           <button type="submit" style="display: none;"></button>
         </div>
       </form>
@@ -203,7 +239,7 @@ $query = mysqli_query($koneksi, $sql);
 
       <?php if ($count === 0): ?>
         <div class="empty-state">
-          <p>😔 Belum ada kampanye aktif yang sesuai.</p>
+          <p>Belum ada kampanye aktif yang sesuai.</p>
         </div>
       <?php endif; ?>
 
@@ -236,6 +272,85 @@ $query = mysqli_query($koneksi, $sql);
   <footer>
     <h2>Kirimkan dukunganmu segera — setiap rupiah yang kamu berikan sangat berarti bagi mereka 💚</h2>
   </footer>
+
+  <!-- SLIDE PANE OVERLAY -->
+  <?php if ($is_donor): ?>
+    <div id="slide-overlay" class="slide-overlay" onclick="toggleSlidePane()"></div>
+    <aside id="slide-pane" class="slide-pane">
+      <div class="slide-pane-header">
+        <h2>Riwayat Donasi Saya</h2>
+        <button class="slide-close" onclick="toggleSlidePane()">&times;</button>
+      </div>
+
+      <!-- RINGKASAN -->
+      <div class="slide-summary">
+        <div class="summary-card summary-berhasil">
+          <span class="summary-icon">✅</span>
+          <div class="summary-detail">
+            <span class="summary-label">Verified</span>
+            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['BERHASIL']['total'] ?? 0); ?></span>
+            <span class="summary-count"><?php echo ($donasi_summary['BERHASIL']['jumlah'] ?? 0); ?> donasi</span>
+          </div>
+        </div>
+        <div class="summary-card summary-pending">
+          <span class="summary-icon">⏳</span>
+          <div class="summary-detail">
+            <span class="summary-label">Pending</span>
+            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['PENDING']['total'] ?? 0); ?></span>
+            <span class="summary-count"><?php echo ($donasi_summary['PENDING']['jumlah'] ?? 0); ?> donasi</span>
+          </div>
+        </div>
+        <div class="summary-card summary-ditolak">
+          <span class="summary-icon">❌</span>
+          <div class="summary-detail">
+            <span class="summary-label">Ditolak</span>
+            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['DITOLAK']['total'] ?? 0); ?></span>
+            <span class="summary-count"><?php echo ($donasi_summary['DITOLAK']['jumlah'] ?? 0); ?> donasi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIWAYAT DETAIL -->
+      <div class="slide-history">
+        <h3>Detail Riwayat</h3>
+        <?php if (count($donasi_history) > 0): ?>
+          <?php foreach ($donasi_history as $riwayat): ?>
+            <div class="history-card history-<?php echo strtolower($riwayat['status']); ?>">
+              <div class="history-status-bar"></div>
+              <div class="history-body">
+                <div class="history-top">
+                  <span class="history-campaign"><?php echo htmlspecialchars($riwayat['judul_kampanye']); ?></span>
+                  <span class="history-badge badge-<?php echo strtolower($riwayat['status']); ?>"><?php echo $riwayat['status']; ?></span>
+                </div>
+                <span class="history-nominal">Rp<?php echo number_format($riwayat['nominal_donasi']); ?></span>
+                <div class="history-bottom">
+                  <span class="history-metode"><?php echo $riwayat['metode_pembayaran']; ?></span>
+                  <span class="history-date"><?php echo date("d M Y", strtotime($riwayat['tgl_donasi'])); ?></span>
+                </div>
+                <?php if (!empty($riwayat['pesan_dukungan'])): ?>
+                  <p class="history-pesan">"<?php echo htmlspecialchars($riwayat['pesan_dukungan']); ?>"</p>
+                <?php endif; ?>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="history-empty">
+            <p>Kamu belum pernah berdonasi.<br>Ayo mulai berdonasi sekarang!</p>
+          </div>
+        <?php endif; ?>
+      </div>
+    </aside>
+  <?php endif; ?>
+
+  <script>
+    function toggleSlidePane() {
+      const pane = document.getElementById('slide-pane');
+      const overlay = document.getElementById('slide-overlay');
+      pane.classList.toggle('open');
+      overlay.classList.toggle('open');
+      document.body.classList.toggle('slide-pane-active');
+    }
+  </script>
 
 </body>
 
