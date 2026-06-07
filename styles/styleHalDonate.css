@@ -23,7 +23,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Tetap tanpa scroll */
+  overflow-y: auto; /* Memungkinkan scroll jika konten melebihi tinggi viewport */
 }
 
 /* ─── HEADER ─── */
@@ -130,6 +130,74 @@ main {
   font-family: "Fredoka One", cursive;
   font-size: 1.8rem;
   color: var(--green);
+}
+
+/* ─── CAMPAIGN SUMMARY BOX ─── */
+.campaign-detail-summary {
+  margin-top: 15px;
+  padding: 15px 20px;
+  background-color: var(--cream);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0px var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.campaign-detail-summary .camp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campaign-detail-summary .camp-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--green-dark);
+}
+
+.campaign-detail-summary .camp-title {
+  font-family: "Fredoka One", cursive;
+  font-size: 1.3rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.camp-stats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  border-top: 2px dashed rgba(26, 26, 26, 0.15);
+  padding-top: 10px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.stat-divider {
+  width: 2px;
+  height: 28px;
+  background-color: var(--ink);
+  opacity: 0.2;
 }
 
 /* Grid Layout: Membagi Form menjadi 2 Kolom */

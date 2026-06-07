@@ -91,7 +91,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main>
         <div class="donate-card">
             <div class="camp-summary">
-                <h2> Donasi Sekarang</h2>
+                <h2>Donasi Sekarang</h2>
+                <!-- Ringkasan Kampanye -->
+                <div class="campaign-detail-summary">
+                    <div class="camp-info">
+                        <span class="camp-label">Kampanye Pilihan Anda</span>
+                        <h3 class="camp-title"><?php echo htmlspecialchars($camp_data['judul']); ?></h3>
+                    </div>
+                    <div class="camp-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Target Dana</span>
+                            <span class="stat-value">Rp <?php echo number_format($camp_data['target_dana'], 0, ',', '.'); ?></span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-label">Dana Terkumpul</span>
+                            <span class="stat-value">Rp <?php echo number_format($camp_data['dana_terkumpul'], 0, ',', '.'); ?></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <form action="" method="POST" enctype="multipart/form-data">
