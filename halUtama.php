@@ -43,14 +43,19 @@ if ($sort_dipilih !== 'target' && $sort_dipilih !== 'deadline') {
 }
 
 // === LOGIKA PAGINATION ===
-$limit = 8; // Batasi maksimal 8 campaign per halaman
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 8; 
+
+if (isset($_GET['page'])) {
+  $page = (int)$_GET['page'];
+} else {
+  $page = 1;
+}
+
 if ($page < 1) {
   $page = 1;
 }
-$offset = ($page - 1) * $limit;
 
-// 1. Pastikan baris pendefinisian $sql_base ini ada dan tidak terhapus:
+$offset = ($page - 1) * $limit; //data yang di lompati
 $sql_base = "SELECT * FROM campaign WHERE deadline >= CURDATE()";
 
 if ($kategori_dipilih != '') {
@@ -110,11 +115,11 @@ if ($is_donor) {
 
   // Riwayat detail
   $q_history = mysqli_query($koneksi, "
-    SELECT d.*, c.judul AS judul_kampanye
-    FROM donasi d
-    JOIN campaign c ON d.campaign_id = c.id
-    WHERE d.user_id = $user_id
-    ORDER BY d.tgl_donasi DESC
+    SELECT donasi.*, campaign.judul AS judul_kampanye
+    FROM donasi
+    JOIN campaign ON donasi.campaign_id = campaign.id
+    WHERE donasi.user_id = $user_id
+    ORDER BY donasi.tgl_donasi DESC
   ");
   while ($h = mysqli_fetch_assoc($q_history)) {
     $donasi_history[] = $h;
@@ -306,7 +311,14 @@ if ($is_donor) {
 
         <!-- Angka Halaman -->
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>&sort=<?php echo urlencode($sort_dipilih); ?>" class="page-btn <?php echo ($i == $page) ? 'active' : ''; ?>">
+            <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn 
+            <?php 
+                if ($i == $page) { 
+                    echo 'active'; 
+                } else { 
+                    echo ''; 
+                } 
+            ?>">
             <?php echo $i; ?>
           </a>
         <?php endfor; ?>
@@ -339,24 +351,75 @@ if ($is_donor) {
           <span class="summary-icon">✅</span>
           <div class="summary-detail">
             <span class="summary-label">Verified</span>
-            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['BERHASIL']['total'] ?? 0); ?></span>
-            <span class="summary-count"><?php echo ($donasi_summary['BERHASIL']['jumlah'] ?? 0); ?> donasi</span>
+            <span class="summary-amount">Rp
+              <?php 
+                if (isset($donasi_summary['BERHASIL']['total'])) {
+                    echo number_format($donasi_summary['BERHASIL']['total']);
+                } else {
+                    echo number_format(0);
+                }
+              ?>
+            </span>
+
+            <span class="summary-count">
+              <?php 
+                if (isset($donasi_summary['BERHASIL']['jumlah'])) {
+                    echo $donasi_summary['BERHASIL']['jumlah'];
+                } else {
+                    echo 0;
+                }
+              ?> donasi
+            </span>
           </div>
         </div>
         <div class="summary-card summary-pending">
           <span class="summary-icon">⏳</span>
           <div class="summary-detail">
             <span class="summary-label">Pending</span>
-            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['PENDING']['total'] ?? 0); ?></span>
-            <span class="summary-count"><?php echo ($donasi_summary['PENDING']['jumlah'] ?? 0); ?> donasi</span>
+            <span class="summary-amount">Rp
+              <?php 
+                if (isset($donasi_summary['PENDING']['total'])) {
+                    echo number_format($donasi_summary['PENDING']['total']);
+                } else {
+                    echo number_format(0);
+                }
+              ?>
+            </span>
+
+            <span class="summary-count">
+              <?php 
+                if (isset($donasi_summary['PENDING']['jumlah'])) {
+                    echo $donasi_summary['PENDING']['jumlah'];
+                } else {
+                    echo 0;
+                }
+              ?> donasi
+            </span>
           </div>
         </div>
         <div class="summary-card summary-ditolak">
           <span class="summary-icon">❌</span>
           <div class="summary-detail">
             <span class="summary-label">Ditolak</span>
-            <span class="summary-amount">Rp<?php echo number_format($donasi_summary['DITOLAK']['total'] ?? 0); ?></span>
-            <span class="summary-count"><?php echo ($donasi_summary['DITOLAK']['jumlah'] ?? 0); ?> donasi</span>
+            <span class="summary-amount">Rp
+              <?php 
+                if (isset($donasi_summary['DITOLAK']['total'])) {
+                    echo number_format($donasi_summary['DITOLAK']['total']);
+                } else {
+                    echo number_format(0);
+                }
+              ?>
+            </span>
+
+            <span class="summary-count">
+              <?php 
+                if (isset($donasi_summary['DITOLAK']['jumlah'])) {
+                    echo $donasi_summary['DITOLAK']['jumlah'];
+                } else {
+                    echo 0;
+                }
+              ?> donasi
+            </span>
           </div>
         </div>
       </div>
