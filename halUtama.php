@@ -43,7 +43,7 @@ if ($sort_dipilih !== 'target' && $sort_dipilih !== 'deadline') {
 }
 
 // === LOGIKA PAGINATION ===
-$limit = 8; 
+$limit = 8;
 
 if (isset($_GET['page'])) {
   $page = (int)$_GET['page'];
@@ -177,8 +177,8 @@ if ($is_donor) {
     </div>
 
     <section class="search-bar">
-      <form action="halUtama.php" method="GET">
-        <input type="hidden" name="sort" value="<?php echo htmlspecialchars($sort_dipilih); ?>">
+      <form action="halUtama.php" method="GET" id="searchForm">
+        <input type="hidden" name="sort" id="sortInput" value="<?php echo htmlspecialchars($sort_dipilih); ?>">
         <div class="search-container">
           <select class="category-select" name="kategori" onchange="this.form.submit()">
             <option value="">Semua Kategori</option>
@@ -197,18 +197,15 @@ if ($is_donor) {
           </select>
           <select class="category-select deadline-select" name="waktu" onchange="this.form.submit()">
             <option value="">Semua Waktu</option>
-            <option value="3" <?php if ($waktu_dipilih == '3') {
-                                echo 'selected';
-                              } ?>>Urgent (≤ 3 Hari)</option>
             <option value="7" <?php if ($waktu_dipilih == '7') {
                                 echo 'selected';
                               } ?>>Mendesak (≤ 7 Hari)</option>
             <option value="30" <?php if ($waktu_dipilih == '30') {
-                                 echo 'selected';
-                               } ?>>Bulan Ini (≤ 30 Hari)</option>
+                                  echo 'selected';
+                                } ?>>Bulan Ini (≤ 30 Hari)</option>
             <option value="over30" <?php if ($waktu_dipilih == 'over30') {
-                                     echo 'selected';
-                                   } ?>>Lebih dari 30 Hari</option>
+                                      echo 'selected';
+                                    } ?>>Lebih dari 30 Hari</option>
           </select>
           <div class="divider"></div>
           <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari judul, lokasi, atau pengelola..." />
@@ -224,8 +221,8 @@ if ($is_donor) {
       <span class="pill-count">Terbuka untuk donasi</span>
       <div class="sort-container">
         <span class="sort-label">Urutan:</span>
-        <a href="?sort=deadline&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="sort-btn <?php echo $sort_dipilih === 'deadline' ? 'active' : ''; ?>">📅 Tanggal Terdekat</a>
-        <a href="?sort=target&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="sort-btn <?php echo $sort_dipilih === 'target' ? 'active' : ''; ?>">💰 Dana Terkecil</a>
+        <button type="button" onclick="submitSort('deadline')" class="sort-btn <?php echo $sort_dipilih === 'deadline' ? 'active' : ''; ?>">📅 Tanggal Terdekat</button>
+        <button type="button" onclick="submitSort('target')" class="sort-btn <?php echo $sort_dipilih === 'target' ? 'active' : ''; ?>">💰 Dana Terkecil</button>
       </div>
     </div>
 
@@ -317,13 +314,13 @@ if ($is_donor) {
 
         <!-- Angka Halaman -->
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn 
-            <?php 
-                if ($i == $page) { 
-                    echo 'active'; 
-                } else { 
-                    echo ''; 
-                } 
+          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn 
+            <?php
+            if ($i == $page) {
+              echo 'active';
+            } else {
+              echo '';
+            }
             ?>">
             <?php echo $i; ?>
           </a>
@@ -358,22 +355,22 @@ if ($is_donor) {
           <div class="summary-detail">
             <span class="summary-label">Verified</span>
             <span class="summary-amount">Rp
-              <?php 
-                if (isset($donasi_summary['BERHASIL']['total'])) {
-                    echo number_format($donasi_summary['BERHASIL']['total']);
-                } else {
-                    echo number_format(0);
-                }
+              <?php
+              if (isset($donasi_summary['BERHASIL']['total'])) {
+                echo number_format($donasi_summary['BERHASIL']['total']);
+              } else {
+                echo number_format(0);
+              }
               ?>
             </span>
 
             <span class="summary-count">
-              <?php 
-                if (isset($donasi_summary['BERHASIL']['jumlah'])) {
-                    echo $donasi_summary['BERHASIL']['jumlah'];
-                } else {
-                    echo 0;
-                }
+              <?php
+              if (isset($donasi_summary['BERHASIL']['jumlah'])) {
+                echo $donasi_summary['BERHASIL']['jumlah'];
+              } else {
+                echo 0;
+              }
               ?> donasi
             </span>
           </div>
@@ -383,22 +380,22 @@ if ($is_donor) {
           <div class="summary-detail">
             <span class="summary-label">Pending</span>
             <span class="summary-amount">Rp
-              <?php 
-                if (isset($donasi_summary['PENDING']['total'])) {
-                    echo number_format($donasi_summary['PENDING']['total']);
-                } else {
-                    echo number_format(0);
-                }
+              <?php
+              if (isset($donasi_summary['PENDING']['total'])) {
+                echo number_format($donasi_summary['PENDING']['total']);
+              } else {
+                echo number_format(0);
+              }
               ?>
             </span>
 
             <span class="summary-count">
-              <?php 
-                if (isset($donasi_summary['PENDING']['jumlah'])) {
-                    echo $donasi_summary['PENDING']['jumlah'];
-                } else {
-                    echo 0;
-                }
+              <?php
+              if (isset($donasi_summary['PENDING']['jumlah'])) {
+                echo $donasi_summary['PENDING']['jumlah'];
+              } else {
+                echo 0;
+              }
               ?> donasi
             </span>
           </div>
@@ -408,22 +405,22 @@ if ($is_donor) {
           <div class="summary-detail">
             <span class="summary-label">Ditolak</span>
             <span class="summary-amount">Rp
-              <?php 
-                if (isset($donasi_summary['DITOLAK']['total'])) {
-                    echo number_format($donasi_summary['DITOLAK']['total']);
-                } else {
-                    echo number_format(0);
-                }
+              <?php
+              if (isset($donasi_summary['DITOLAK']['total'])) {
+                echo number_format($donasi_summary['DITOLAK']['total']);
+              } else {
+                echo number_format(0);
+              }
               ?>
             </span>
 
             <span class="summary-count">
-              <?php 
-                if (isset($donasi_summary['DITOLAK']['jumlah'])) {
-                    echo $donasi_summary['DITOLAK']['jumlah'];
-                } else {
-                    echo 0;
-                }
+              <?php
+              if (isset($donasi_summary['DITOLAK']['jumlah'])) {
+                echo $donasi_summary['DITOLAK']['jumlah'];
+              } else {
+                echo 0;
+              }
               ?> donasi
             </span>
           </div>
@@ -469,6 +466,13 @@ if ($is_donor) {
       pane.classList.toggle('open');
       overlay.classList.toggle('open');
       document.body.classList.toggle('slide-pane-active');
+    }
+
+    function submitSort(value) {
+      // Ubah nilai input sort tersembunyi di dalam form
+      document.getElementById('sortInput').value = value;
+      // Kirim (submit) form pencarian
+      document.getElementById('searchForm').submit();
     }
   </script>
 
