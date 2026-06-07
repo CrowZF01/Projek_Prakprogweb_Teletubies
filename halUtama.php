@@ -55,14 +55,19 @@ if ($page < 1) {
   $page = 1;
 }
 
-$offset = ($page - 1) * $limit; //data yang di lompati
+// Menentukan index data awal (offset) yang akan ditarik dari database berdasarkan halaman aktif
+// Rumus: (Halaman_Aktif - 1) * Jumlah_Data_Per_Halaman
+$offset = ($page - 1) * $limit;
+// 1. Inisialisasi query dasar untuk hanya menampilkan kampanye aktif (belum melewati deadline)
 $sql_base = "SELECT * FROM campaign WHERE deadline >= CURDATE()";
 
+// 2. Tambahkan kondisi filter kategori jika dipilih oleh user
 if ($kategori_dipilih != '') {
   $kategori_aman = mysqli_real_escape_string($koneksi, $kategori_dipilih);
   $sql_base = $sql_base . " AND kategori = '$kategori_aman'";
 }
 
+// 3. Tambahkan kondisi filter waktu tenggat jika dipilih oleh user
 if ($waktu_dipilih != '') {
   if ($waktu_dipilih === 'over30') {
     $sql_base = $sql_base . " AND deadline > DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
@@ -72,6 +77,7 @@ if ($waktu_dipilih != '') {
   }
 }
 
+// 4. Tambahkan kondisi pencarian berdasarkan kata kunci pada beberapa kolom sekaligus
 if ($keyword != '') {
   $keyword_aman = mysqli_real_escape_string($koneksi, $keyword);
   $sql_base = $sql_base . " AND (judul LIKE '%$keyword_aman%' OR kategori LIKE '%$keyword_aman%' OR deskripsi LIKE '%$keyword_aman%' OR lokasi LIKE '%$keyword_aman%' OR penyelenggara LIKE '%$keyword_aman%')";

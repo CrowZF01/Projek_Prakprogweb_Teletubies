@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verify ownership & donation status PENDING
         $don_check = mysqli_query($koneksi, "
-            SELECT d.nominal_donasi, d.status 
-            FROM donasi d
-            JOIN campaign c ON d.campaign_id = c.id
-            WHERE d.id_donasi = $id_donasi 
-            AND c.id = $id_campaign 
-            AND c.penyelenggara = '$nama_pengelola'
+            SELECT donasi.nominal_donasi, donasi.status 
+            FROM donasi
+            JOIN campaign ON donasi.campaign_id = campaign.id
+            WHERE donasi.id_donasi = $id_donasi 
+            AND campaign.id = $id_campaign 
+            AND campaign.penyelenggara = '$nama_pengelola'
         ");
         $don_data = mysqli_fetch_assoc($don_check);
 
@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verify ownership & donation status PENDING
         $don_check = mysqli_query($koneksi, "
-            SELECT d.status 
-            FROM donasi d
-            JOIN campaign c ON d.campaign_id = c.id
-            WHERE d.id_donasi = $id_donasi 
-            AND c.id = $id_campaign 
-            AND c.penyelenggara = '$nama_pengelola'
+            SELECT donasi.status 
+            FROM donasi
+            JOIN campaign ON donasi.campaign_id = campaign.id
+            WHERE donasi.id_donasi = $id_donasi 
+            AND campaign.id = $id_campaign 
+            AND campaign.penyelenggara = '$nama_pengelola'
         ");
         $don_data = mysqli_fetch_assoc($don_check);
 
