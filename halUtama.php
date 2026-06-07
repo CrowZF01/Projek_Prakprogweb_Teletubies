@@ -33,6 +33,15 @@ if (isset($_GET['keyword'])) {
   $keyword = '';
 }
 
+if (isset($_GET['sort'])) {
+  $sort_dipilih = $_GET['sort'];
+} else {
+  $sort_dipilih = 'deadline';
+}
+if ($sort_dipilih !== 'target' && $sort_dipilih !== 'deadline') {
+  $sort_dipilih = 'deadline';
+}
+
 // === LOGIKA PAGINATION ===
 $limit = 8; // Batasi maksimal 8 campaign per halaman
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -69,7 +78,12 @@ $total_records = mysqli_num_rows($query_total);
 $total_pages = ceil($total_records / $limit);
 
 // 3. Jalankan query utama dengan menyertakan ORDER BY (deadline & target_dana), LIMIT, dan OFFSET
-$sql = $sql_base . " ORDER BY deadline ASC, target_dana ASC LIMIT $limit OFFSET $offset";
+if ($sort_dipilih === 'target') {
+  $order_clause = "target_dana ASC, deadline ASC";
+} else {
+  $order_clause = "deadline ASC, target_dana ASC";
+}
+$sql = $sql_base . " ORDER BY $order_clause LIMIT $limit OFFSET $offset";
 $query = mysqli_query($koneksi, $sql);
 
 // === QUERY RIWAYAT DONASI UNTUK SLIDE PANE ===
@@ -153,6 +167,7 @@ if ($is_donor) {
 
     <section class="search-bar">
       <form action="halUtama.php" method="GET">
+        <input type="hidden" name="sort" value="<?php echo htmlspecialchars($sort_dipilih); ?>">
         <div class="search-container">
           <select class="category-select" name="kategori" onchange="this.form.submit()">
             <option value="">Semua Kategori</option>
@@ -196,6 +211,11 @@ if ($is_donor) {
     <div class="section-label">
       <h2>Kampanye Aktif</h2>
       <span class="pill-count">Terbuka untuk donasi</span>
+      <div class="sort-container">
+        <span class="sort-label">Urutan:</span>
+        <a href="?sort=deadline&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="sort-btn <?php echo $sort_dipilih === 'deadline' ? 'active' : ''; ?>">📅 Tanggal Terdekat</a>
+        <a href="?sort=target&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="sort-btn <?php echo $sort_dipilih === 'target' ? 'active' : ''; ?>">💰 Dana Terkecil</a>
+      </div>
     </div>
 
     <section class="campaigns">
@@ -281,19 +301,19 @@ if ($is_donor) {
       <div class="pagination">
         <!-- Tombol Prev -->
         <?php if ($page > 1): ?>
-          <a href="?page=<?php echo $page - 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn prev-btn">&laquo; Prev</a>
+          <a href="?page=<?php echo $page - 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>&sort=<?php echo urlencode($sort_dipilih); ?>" class="page-btn prev-btn">&laquo; Prev</a>
         <?php endif; ?>
 
         <!-- Angka Halaman -->
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn <?php echo ($i == $page) ? 'active' : ''; ?>">
+          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>&sort=<?php echo urlencode($sort_dipilih); ?>" class="page-btn <?php echo ($i == $page) ? 'active' : ''; ?>">
             <?php echo $i; ?>
           </a>
         <?php endfor; ?>
 
         <!-- Tombol Next -->
         <?php if ($page < $total_pages): ?>
-          <a href="?page=<?php echo $page + 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn next-btn">Next &raquo;</a>
+          <a href="?page=<?php echo $page + 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>&sort=<?php echo urlencode($sort_dipilih); ?>" class="page-btn next-btn">Next &raquo;</a>
         <?php endif; ?>
       </div>
     <?php endif; ?>

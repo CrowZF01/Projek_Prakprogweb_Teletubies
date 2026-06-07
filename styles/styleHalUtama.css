@@ -252,6 +252,53 @@ main {
   box-shadow: 2px 2px 0 var(--ink);
 }
 
+.sort-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-label {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-btn {
+  text-decoration: none;
+  color: var(--ink);
+  background-color: var(--white);
+  border: var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: 2px 2px 0px var(--ink);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.1s ease;
+  white-space: nowrap;
+}
+
+.sort-btn:hover {
+  background-color: var(--yellow);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink);
+}
+
+.sort-btn.active {
+  background-color: var(--green);
+  color: var(--white);
+  box-shadow: none;
+  transform: none;
+  border-color: var(--ink);
+  pointer-events: none;
+}
+
 /* ─── CARDS ─── */
 .campaigns {
   display: grid;
@@ -604,6 +651,19 @@ footer h2 {
 
   .intro h1 {
     font-size: 2rem;
+  }
+
+  .section-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .sort-container {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
