@@ -347,6 +347,8 @@ main {
 .card-meta {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
   font-size: 0.8rem;
   color: #777;
   font-weight: 600;
@@ -580,6 +582,19 @@ footer h2 {
 
   .datang {
     display: none;
+  }
+
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: var(--radius-md);
+  }
+
+  .category-select {
+    border-right: none !important;
+    border-bottom: var(--border) !important;
+    width: 100%;
+    background-position: right 20px center;
   }
 
   .campaigns {

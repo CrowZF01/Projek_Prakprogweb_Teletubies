@@ -21,6 +21,12 @@ if (isset($_GET['kategori'])) {
   $kategori_dipilih = '';
 }
 
+if (isset($_GET['waktu'])) {
+  $waktu_dipilih = $_GET['waktu'];
+} else {
+  $waktu_dipilih = '';
+}
+
 if (isset($_GET['keyword'])) {
   $keyword = $_GET['keyword'];
 } else {
@@ -43,9 +49,18 @@ if ($kategori_dipilih != '') {
   $sql_base = $sql_base . " AND kategori = '$kategori_aman'";
 }
 
+if ($waktu_dipilih != '') {
+  if ($waktu_dipilih === 'over30') {
+    $sql_base = $sql_base . " AND deadline > DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+  } else {
+    $waktu_aman = (int)$waktu_dipilih;
+    $sql_base = $sql_base . " AND deadline <= DATE_ADD(CURDATE(), INTERVAL $waktu_aman DAY)";
+  }
+}
+
 if ($keyword != '') {
   $keyword_aman = mysqli_real_escape_string($koneksi, $keyword);
-  $sql_base = $sql_base . " AND (judul LIKE '%$keyword_aman%' OR kategori LIKE '%$keyword_aman%' OR deskripsi LIKE '%$keyword_aman%')";
+  $sql_base = $sql_base . " AND (judul LIKE '%$keyword_aman%' OR kategori LIKE '%$keyword_aman%' OR deskripsi LIKE '%$keyword_aman%' OR lokasi LIKE '%$keyword_aman%' OR penyelenggara LIKE '%$keyword_aman%')";
 }
 
 // 2. Hitung total campaign setelah difilter
@@ -154,8 +169,23 @@ if ($is_donor) {
                                           echo 'selected';
                                         } ?>>Kemanusiaan</option>
           </select>
+          <select class="category-select deadline-select" name="waktu" onchange="this.form.submit()">
+            <option value="">Semua Waktu</option>
+            <option value="3" <?php if ($waktu_dipilih == '3') {
+                                echo 'selected';
+                              } ?>>Urgent (≤ 3 Hari)</option>
+            <option value="7" <?php if ($waktu_dipilih == '7') {
+                                echo 'selected';
+                              } ?>>Mendesak (≤ 7 Hari)</option>
+            <option value="30" <?php if ($waktu_dipilih == '30') {
+                                 echo 'selected';
+                               } ?>>Bulan Ini (≤ 30 Hari)</option>
+            <option value="over30" <?php if ($waktu_dipilih == 'over30') {
+                                     echo 'selected';
+                                   } ?>>Lebih dari 30 Hari</option>
+          </select>
           <div class="divider"></div>
-          <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari judul kampanye..." />
+          <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari judul, lokasi, atau pengelola..." />
           <button type="submit" style="display: none;"></button>
         </div>
       </form>
@@ -205,7 +235,8 @@ if ($is_donor) {
               </a>
 
               <div class="card-meta">
-                <span>👤 <?php echo $row['penyelenggara']; ?></span>
+                <span>👤 <?php echo htmlspecialchars($row['penyelenggara']); ?></span>
+                <span>📍 <?php echo htmlspecialchars($row['lokasi']); ?></span>
                 <span>📅 <?php echo $row['deadline']; ?></span>
               </div>
 
@@ -245,24 +276,24 @@ if ($is_donor) {
 
     </section>
 
-    <!-- UI Pagination (Neo-Cartoonist) -->
+    <!-- UI Pagination -->
     <?php if ($total_pages > 1): ?>
       <div class="pagination">
         <!-- Tombol Prev -->
         <?php if ($page > 1): ?>
-          <a href="?page=<?php echo $page - 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn prev-btn">&laquo; Prev</a>
+          <a href="?page=<?php echo $page - 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn prev-btn">&laquo; Prev</a>
         <?php endif; ?>
 
         <!-- Angka Halaman -->
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn <?php echo ($i == $page) ? 'active' : ''; ?>">
+          <a href="?page=<?php echo $i; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn <?php echo ($i == $page) ? 'active' : ''; ?>">
             <?php echo $i; ?>
           </a>
         <?php endfor; ?>
 
         <!-- Tombol Next -->
         <?php if ($page < $total_pages): ?>
-          <a href="?page=<?php echo $page + 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn next-btn">Next &raquo;</a>
+          <a href="?page=<?php echo $page + 1; ?>&kategori=<?php echo urlencode($kategori_dipilih); ?>&waktu=<?php echo urlencode($waktu_dipilih); ?>&keyword=<?php echo urlencode($keyword); ?>" class="page-btn next-btn">Next &raquo;</a>
         <?php endif; ?>
       </div>
     <?php endif; ?>
