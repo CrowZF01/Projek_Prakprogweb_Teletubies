@@ -127,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         if (!isset($_SESSION['msg_error'])) {
-            // Sync 'deskripsi' field as truncated version of 'deskripsi_lengkap' (max 150 chars)
+            // Mengambil 150 karakter pertama dari deskripsi lengkap
+            // dijadikan deskripsi ringkas yang akan ditampilkan di card halaman utama
             $deskripsi_pendek = mysqli_real_escape_string($koneksi, substr(strip_tags($_POST['deskripsi_lengkap']), 0, 150));
             
             $sql_insert = "INSERT INTO campaign (judul, sub_judul, kategori, lokasi, deskripsi, deskripsi_lengkap, target_dana, penyelenggara, deadline, gambar, dana_terkumpul) 
