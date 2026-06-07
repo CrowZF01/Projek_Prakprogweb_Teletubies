@@ -86,6 +86,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: halPengelola.php?id=" . $id_campaign);
         exit();
     }
+
+    // 3. BUAT KAMPANYE BARU
+    if (isset($_POST['create_campaign'])) {
+        $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+        $sub_judul = mysqli_real_escape_string($koneksi, $_POST['sub_judul']);
+        $kategori = mysqli_real_escape_string($koneksi, $_POST['kategori']);
+        $lokasi = mysqli_real_escape_string($koneksi, $_POST['lokasi']);
+        $deskripsi_lengkap = mysqli_real_escape_string($koneksi, $_POST['deskripsi_lengkap']);
+        $target_dana = (int)$_POST['target_dana'];
+        $deadline = mysqli_real_escape_string($koneksi, $_POST['deadline']);
+        
+        $path_database = "";
+        
+        // Handle upload
+        if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+            $nama_file = $_FILES['gambar']['name'];
+            $temp_file = $_FILES['gambar']['tmp_name'];
+            $ekstensi = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+            
+            if (in_array($ekstensi, $allowed)) {
+                $nama_file_baru = time() . "_" . $nama_file;
+                $folder_upload = "uploads/";
+                
+                if (!is_dir($folder_upload)) {
+                    mkdir($folder_upload, 0777, true);
+                }
+                
+                if (move_uploaded_file($temp_file, $folder_upload . $nama_file_baru)) {
+                    $path_database = $folder_upload . $nama_file_baru;
+                } else {
+                    $_SESSION['msg_error'] = "Gagal memindahkan file gambar yang diunggah.";
+                }
+            } else {
+                $_SESSION['msg_error'] = "Format gambar tidak didukung! Harus berupa JPG, JPEG, PNG, atau WEBP.";
+            }
+        } else {
+            $_SESSION['msg_error'] = "Anda wajib mengunggah gambar cover kampanye.";
+        }
+        
+        if (!isset($_SESSION['msg_error'])) {
+            // Sync 'deskripsi' field as truncated version of 'deskripsi_lengkap' (max 150 chars)
+            $deskripsi_pendek = mysqli_real_escape_string($koneksi, substr(strip_tags($_POST['deskripsi_lengkap']), 0, 150));
+            
+            $sql_insert = "INSERT INTO campaign (judul, sub_judul, kategori, lokasi, deskripsi, deskripsi_lengkap, target_dana, penyelenggara, deadline, gambar, dana_terkumpul) 
+                           VALUES ('$judul', '$sub_judul', '$kategori', '$lokasi', '$deskripsi_pendek', '$deskripsi_lengkap', '$target_dana', '$nama_pengelola', '$deadline', '$path_database', 0)";
+            
+            if (mysqli_query($koneksi, $sql_insert)) {
+                $new_id = mysqli_insert_id($koneksi);
+                $_SESSION['msg_success'] = "Kampanye baru berhasil dibuat!";
+                header("Location: halPengelola.php?id=" . $new_id);
+                exit();
+            } else {
+                $_SESSION['msg_error'] = "Gagal membuat kampanye: " . mysqli_error($koneksi);
+            }
+        }
+        
+        // Jika gagal, kembali ke form tambah dengan pesan error
+        header("Location: halPengelola.php?action=tambah");
+        exit();
+    }
 }
 
 $query_list = mysqli_query($koneksi, "
@@ -188,6 +249,7 @@ if ($id_dipilih > 0) {
                         </option>
                     <?php endwhile; ?>
                 </select>
+                <a href="halPengelola.php?action=tambah" class="btn-back" style="margin-bottom: 0; margin-left: auto; white-space: nowrap;">➕ Buat Kampanye Baru</a>
             </div>
 
             <?php if ($data): ?>
@@ -292,9 +354,66 @@ if ($id_dipilih > 0) {
                     </div>
                 </div>
 
+            <?php elseif (isset($_GET['action']) && $_GET['action'] === 'tambah'): ?>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="campaign-title">
+                        <h1>
+                            <input type="text" name="judul" class="edit-judul" placeholder="Tulis Judul Kampanye Menarik Di Sini..." required>
+                        </h1>
+                        <textarea name="sub_judul" class="edit-subtitle" placeholder="Tulis sub-judul singkat yang menjelaskan kampanye Anda..." required></textarea>
+                    </div>
+
+                    <div class="detail-content">
+                        <div class="poster">
+                            <div class="poster-edit-container">
+                                <div class="file-upload" style="display: block; width: 100%; box-sizing: border-box; text-align: center; padding: 40px 20px;">
+                                    <span style="display: block; margin-bottom: 15px; font-family: 'Fredoka One', cursive; font-size: 1.2rem;">📸 Unggah Gambar Cover</span>
+                                    <input type="file" name="gambar" required style="font-family: 'Nunito', sans-serif;">
+                                </div>
+                            </div>
+
+                            <div class="tags edit-mode-tags" style="border-bottom: none; padding-bottom: 0; margin-top: 25px;">
+                                <span class="tag">🔖 
+                                    <select name="kategori" required style="border: none; background: transparent; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--green-dark); outline: none; border-bottom: 2px dashed var(--green); cursor: pointer;">
+                                        <option value="Pendidikan">Pendidikan</option>
+                                        <option value="Kesehatan">Kesehatan</option>
+                                        <option value="Lingkungan">Lingkungan</option>
+                                        <option value="Kemanusiaan">Kemanusiaan</option>
+                                    </select>
+                                </span>
+                                <span class="tag">📍 
+                                    <input type="text" name="lokasi" placeholder="Lokasi (Contoh: Yogyakarta)" required style="border: none; background: transparent; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--green-dark); width: 180px; outline: none; border-bottom: 2px dashed var(--green); padding: 2px;">
+                                </span>
+                            </div>
+
+                            <div class="desc-edit-area" style="margin-top: 25px;">
+                                <label>Deskripsi Lengkap Kampanye:</label>
+                                <textarea name="deskripsi_lengkap" placeholder="Ceritakan kisah di balik penggalangan dana ini secara lengkap..." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <label class="label-manage">Target Dana (Rp)</label>
+                            <input type="number" name="target_dana" class="edit-number" placeholder="Contoh: 50000000" min="10000" required style="box-sizing: border-box;">
+
+                            <div class="stats-box manage">
+                                <label>Penyelenggara (Otomatis):</label>
+                                <input type="text" value="<?php echo htmlspecialchars($nama); ?>" disabled style="background-color: #f0f0f0; cursor: not-allowed; box-shadow: none; border-color: #ccc; box-sizing: border-box;">
+
+                                <label style="margin-top: 15px;">Deadline Penggalangan Dana:</label>
+                                <input type="date" name="deadline" required min="<?php echo date('Y-m-d'); ?>" style="box-sizing: border-box;">
+                            </div>
+
+                            <button type="submit" name="create_campaign" class="btn" style="background-color: var(--green); color: var(--white); border: var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-ink); font-family: 'Fredoka One', cursive; font-size: 1.15rem; padding: 14px; margin-top: 15px; width: 100%; transition: all 0.15s ease;">🚀 Publikasikan Kampanye Baru</button>
+                            <a href="halPengelola.php" class="btn-back" style="display: block; text-align: center; margin-top: 15px; margin-bottom: 0;">Batal</a>
+                        </div>
+                    </div>
+                </form>
             <?php else: ?>
                 <div class="welcome-manager">
                     <p>Silahkan pilih kampanye yang ingin Anda kelola melalui menu dropdown di atas.</p>
+                    <p style="margin-top: 15px; font-size: 1rem;">atau</p>
+                    <a href="halPengelola.php?action=tambah" class="btn-back" style="margin-top: 15px; display: inline-block; margin-bottom: 0;">➕ Buat Kampanye Baru</a>
                 </div>
             <?php endif; ?>
         </section>
