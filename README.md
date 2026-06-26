@@ -2,6 +2,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange.svg)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg?logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Design Style](https://img.shields.io/badge/Design-Neubrutalism-brightgreen.svg)](#-desain-ui-neubrutalism-modern)
 
@@ -54,6 +55,39 @@ Aplikasi ini mengadopsi estetika **Neubrutalism** (Neo-Brutalism) yang saat ini 
 *   **Frontend:** HTML5, Vanilla CSS3 (Custom Neubrutalist Design System), Vanilla JavaScript (Slider menu, modal galeri bukti transfer, form submission).
 *   **Backend:** Native PHP (dengan pengelolaan Session, manajemen file upload).
 *   **Database:** MySQL (interaksi menggunakan ekstensi `mysqli`).
+*   **Containerization:** Docker & Docker Compose.
+
+---
+
+## 🚀 Cara Menjalankan Aplikasi
+
+Anda dapat menjalankan aplikasi ini menggunakan dua metode: menggunakan **Docker** (Sangat Direkomendasikan & Cepat) atau secara manual menggunakan **XAMPP**.
+
+### Metode A: Menggunakan Docker (Direkomendasikan)
+Dengan Docker, Anda tidak perlu menginstal PHP atau MySQL secara lokal di komputer Anda. Semua layanan dan dependensi otomatis terisolasi dan langsung siap pakai.
+
+1. **Prasyarat**: Pastikan Anda sudah menginstal [Docker Desktop](https://www.docker.com/products/docker-desktop/) di komputer Anda.
+2. **Jalankan Container**: Buka terminal di direktori proyek ini, kemudian jalankan perintah:
+   ```bash
+   docker compose up -d --build
+   ```
+3. **Akses Aplikasi**:
+   * **Web App**: Buka browser dan akses [http://localhost:8080](http://localhost:8080).
+   * **phpMyAdmin**: Buka browser dan akses [http://localhost:8081](http://localhost:8081) untuk mengelola database secara visual (Host: `db`, Username: `root`, Password: `rootpassword`).
+4. **Database Otomatis**: Skema database dari [database.sql](file:///c:/Users/felix/OneDrive/Documents/GitHub/Projek_Prakprogweb_Teletubies/database.sql) akan diimpor secara otomatis ke kontainer MySQL saat pertama kali kontainer dijalankan. Anda tidak perlu mengimpor file SQL secara manual.
+5. **Menghentikan Container**: Untuk menghentikan layanan container, jalankan:
+   ```bash
+   docker compose down
+   ```
+
+### Metode B: Menggunakan XAMPP (Manual)
+1. Pindahkan folder proyek ini ke dalam direktori `htdocs` XAMPP Anda (misalnya: `C:\xampp\htdocs\Projek_Prakprogweb_Teletubies`).
+2. Aktifkan **Apache** dan **MySQL** di XAMPP Control Panel Anda.
+3. Buka phpMyAdmin lokal Anda di `http://localhost/phpmyadmin`.
+4. Buat database baru bernama `crowdfunding`.
+5. Impor berkas [database.sql](file:///c:/Users/felix/OneDrive/Documents/GitHub/Projek_Prakprogweb_Teletubies/database.sql) ke dalam database `crowdfunding` tersebut.
+6. Sesuaikan konfigurasi database di file [koneksi.php](file:///c:/Users/felix/OneDrive/Documents/GitHub/Projek_Prakprogweb_Teletubies/koneksi/koneksi.php) (ubah host menjadi `"localhost"`, username `"root"`, dan kosongkan password `""`).
+7. Akses web melalui `http://localhost/Projek_Prakprogweb_Teletubies/halLogin.php`.
 
 ---
 
