@@ -152,6 +152,20 @@
     box-shadow: 7px 7px 0px var(--green);
 }
 
+.desc-content-preview {
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-ink);
+    line-height: 1.7;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: var(--ink-light);
+    min-height: 150px;
+    overflow-y: auto;
+}
+
 .label-manage {
     display: block;
     font-size: 0.75rem;
@@ -242,20 +256,29 @@
     font-weight: 800;
 }
 
-.edit-mode-tags input {
+.edit-mode-tags input,
+.edit-mode-tags select {
     border: none;
     background: transparent;
     font-family: "Nunito", sans-serif;
     font-weight: 800;
     font-size: 0.85rem;
     color: var(--green-dark);
-    width: 110px;
     outline: none;
     border-bottom: 2px dashed var(--green);
     padding: 2px;
 }
 
-.edit-mode-tags input:focus {
+.edit-mode-tags input {
+    width: 180px;
+}
+
+.edit-mode-tags select {
+    cursor: pointer;
+}
+
+.edit-mode-tags input:focus,
+.edit-mode-tags select:focus {
     border-bottom-style: solid;
     border-color: var(--ink);
 }
@@ -287,6 +310,67 @@ button.btn:active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0px var(--ink);
 }
+
+/* Button for publishing new campaign */
+.btn-publish {
+    background-color: var(--green);
+    color: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-ink);
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    padding: 14px;
+    margin-top: 15px;
+    width: 100%;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
+
+.btn-publish:hover {
+    background-color: var(--white);
+    color: var(--green-dark);
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0px var(--ink);
+}
+
+.btn-publish:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+/* Button for editing campaign */
+.btn-edit-camp {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    padding: 14px;
+    margin-top: 15px;
+    background-color: var(--yellow);
+    color: var(--ink);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-ink);
+    box-sizing: border-box;
+    width: 100%;
+    transition: all 0.15s ease;
+}
+
+.btn-edit-camp:hover {
+    background-color: var(--white);
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0px var(--ink);
+}
+
+.btn-edit-camp:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
 
 /* Bukti Donasi Horizontal Scroll */
 .bukti-section {

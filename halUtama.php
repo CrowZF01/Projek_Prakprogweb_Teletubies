@@ -94,6 +94,8 @@ if ($sort_dipilih === 'target') {
 } else {
   $order_clause = "deadline ASC, target_dana ASC";
 }
+
+// Mengambil data campaign yang aktif dari database
 $sql = $sql_base . " ORDER BY $order_clause LIMIT $limit OFFSET $offset";
 $query = mysqli_query($koneksi, $sql);
 
@@ -113,10 +115,9 @@ if ($is_donor) {
     GROUP BY status
   ");
   while ($s = mysqli_fetch_assoc($q_summary)) {
-    $donasi_summary[$s['status']] = [
-      'jumlah' => (int)$s['jumlah'],
-      'total' => (float)$s['total']
-    ];
+    $status = $s['status'];
+    $donasi_summary[$status]['jumlah'] = (int)$s['jumlah'];
+    $donasi_summary[$status]['total'] = (float)$s['total'];
   }
 
   // Riwayat detail

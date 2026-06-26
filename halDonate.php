@@ -46,7 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allowed = ['jpg', 'jpeg', 'png', 'pdf'];
 
         if (in_array($ekstensi, $allowed)) {
-            $nama_file_baru = time() . "_" . $nama_file; // Hindari nama file duplikat
+            // Menambahkan timestamp unix (time()) di depan nama file asli 
+            // agar nama file bukti transfer unik dan tidak menimpa file lama jika namanya sama
+            $nama_file_baru = time() . "_" . $nama_file;
             $folder_upload = "bukti_transfer/";
 
             if (move_uploaded_file($temp_file, $folder_upload . $nama_file_baru)) {

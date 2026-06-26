@@ -1,7 +1,7 @@
 <?php
-$host = "localhost";
+$host = "db"; // Menghubungkan ke service database 'db' di docker-compose
 $user = "root";
-$password = "";
+$password = "rootpassword"; // Harus sama dengan MYSQL_ROOT_PASSWORD di docker-compose
 $database = "crowdfunding";
 
 $koneksi = mysqli_connect($host, $user, $password, $database);

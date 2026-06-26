@@ -272,7 +272,7 @@ if ($id_dipilih > 0) {
 
                         <div class="desc-edit-area" style="margin-top: 20px;">
                             <label>Deskripsi Lengkap:</label>
-                            <div class="desc-content-preview" style="background: var(--white); border: var(--border); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-ink); line-height: 1.7; font-family: 'Nunito', sans-serif; font-weight: 600; color: var(--ink-light); min-height: 150px; overflow-y: auto;">
+                            <div class="desc-content-preview">
                                 <?php echo nl2br(htmlspecialchars($data['deskripsi_lengkap'])); ?>
                             </div>
                         </div>
@@ -306,7 +306,7 @@ if ($id_dipilih > 0) {
                             <p style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--ink); margin-top: 5px; margin-bottom: 5px;"><strong><?php echo date('d M Y', strtotime($data['deadline'])); ?></strong></p>
                         </div>
 
-                        <a href="editKampanye.php?id=<?php echo $data['id']; ?>" class="btn" style="text-decoration: none; display: block; text-align: center; font-family: 'Fredoka One', cursive; font-size: 1.15rem; padding: 14px; margin-top: 15px; background-color: var(--yellow); color: var(--ink); border: var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-ink); box-sizing: border-box; width: 100%; transition: all 0.15s ease;">⚙️ Edit Kampanye</a>
+                        <a href="editKampanye.php?id=<?php echo $data['id']; ?>" class="btn-edit-camp">⚙️ Edit Kampanye</a>
                     </div>
                 </div>
                 <div class="bukti-section">
@@ -375,7 +375,7 @@ if ($id_dipilih > 0) {
 
                             <div class="tags edit-mode-tags" style="border-bottom: none; padding-bottom: 0; margin-top: 25px;">
                                 <span class="tag">🔖 
-                                    <select name="kategori" required style="border: none; background: transparent; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--green-dark); outline: none; border-bottom: 2px dashed var(--green); cursor: pointer;">
+                                    <select name="kategori" required>
                                         <option value="Pendidikan">Pendidikan</option>
                                         <option value="Kesehatan">Kesehatan</option>
                                         <option value="Lingkungan">Lingkungan</option>
@@ -383,7 +383,7 @@ if ($id_dipilih > 0) {
                                     </select>
                                 </span>
                                 <span class="tag">📍 
-                                    <input type="text" name="lokasi" placeholder="Lokasi (Contoh: Yogyakarta)" required style="border: none; background: transparent; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--green-dark); width: 180px; outline: none; border-bottom: 2px dashed var(--green); padding: 2px;">
+                                    <input type="text" name="lokasi" placeholder="Lokasi (Contoh: Yogyakarta)" required>
                                 </span>
                             </div>
 
@@ -405,8 +405,8 @@ if ($id_dipilih > 0) {
                                 <input type="date" name="deadline" required min="<?php echo date('Y-m-d'); ?>" style="box-sizing: border-box;">
                             </div>
 
-                            <button type="submit" name="create_campaign" class="btn" style="background-color: var(--green); color: var(--white); border: var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-ink); font-family: 'Fredoka One', cursive; font-size: 1.15rem; padding: 14px; margin-top: 15px; width: 100%; transition: all 0.15s ease;">🚀 Publikasikan Kampanye Baru</button>
-                            <a href="halPengelola.php" class="btn-back" style="display: block; text-align: center; margin-top: 15px; margin-bottom: 0;">Batal</a>
+                             <button type="submit" name="create_campaign" class="btn-publish">🚀 Publikasikan Kampanye Baru</button>
+                             <a href="halPengelola.php" class="btn-back" style="display: block; text-align: center; margin-top: 15px; margin-bottom: 0;">Batal</a>
                         </div>
                     </div>
                 </form>
